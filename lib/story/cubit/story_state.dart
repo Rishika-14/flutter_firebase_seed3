@@ -12,7 +12,7 @@ class StoryState extends Equatable {
 
   /// value is -1 when no story is selected.
   /// create story. insert an empty storyModel at index 0 and show that model.
-  final int selectedStoryId;
+  final String selectedStoryId;
   final CrudScreenStatus crudScreenStatus;
   final Failure failure;
 
@@ -26,7 +26,7 @@ class StoryState extends Equatable {
   factory StoryState.initial() {
     return StoryState(
         stories: [],
-        selectedStoryId: -1,
+        selectedStoryId: "",
         crudScreenStatus: CrudScreenStatus.initial,
         failure: const Failure());
   }
@@ -35,7 +35,7 @@ class StoryState extends Equatable {
     //TODO: revisit and improvise this, remove the question marks to see the
     // error
     List<StoryModel>? stories,
-    int? selectedStory,
+    String? selectedStory,
     CrudScreenStatus? crudScreenStatus,
     Failure? failure,
   }) {

@@ -18,6 +18,16 @@ class StoryModel extends Equatable {
     @required this.moral,
   });
 
+  factory StoryModel.newStory() {
+    return StoryModel(
+      id: "new",
+      title: "",
+      imageUrl: "",
+      storyMarkdown: "",
+      moral: "",
+    );
+  }
+
   StoryModel copyWith({
     String? id,
     String? title,
