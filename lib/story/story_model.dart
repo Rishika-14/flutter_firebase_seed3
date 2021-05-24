@@ -55,14 +55,15 @@ class StoryModel extends Equatable {
   // }
 
   factory StoryModel.fromFirebaseDocument(
-      DocumentSnapshot<StoryModel> docSnapshot) {
+      QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot) {
     final data = docSnapshot.data();
     return StoryModel(
-        id: data!.id,
-        title: data.title,
-        imageUrl: data.imageUrl,
-        storyMarkdown: data.storyMarkdown,
-        moral: data.moral);
+      id: docSnapshot.id,
+      title: data['title'],
+      imageUrl: data['imageUrl'],
+      storyMarkdown: data['storyMarkdown'],
+      moral: data['moral'],
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -83,10 +84,9 @@ class StoryModel extends Equatable {
 //</editor-fold>
 
   static List<StoryModel> getUserListFromQuerySnapshot(
-      QuerySnapshot<StoryModel> querySnapshot) {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot) {
     List<StoryModel> stories = [];
-    querySnapshot.docs
-        .forEach((QueryDocumentSnapshot<StoryModel> storySnapshot) {
+    querySnapshot.docs.forEach((storySnapshot) {
       stories.add(StoryModel.fromFirebaseDocument(storySnapshot));
     });
     return stories;

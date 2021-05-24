@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_firebase_seed3/story/repository/base_story_repository.dart';
 import 'package:flutter_firebase_seed3/story/story_model.dart';
@@ -6,11 +8,11 @@ import 'package:meta/meta.dart';
 class StoryRepository extends BaseStoryRepository {
   static const dbCollectionPath = 'stories';
 
-  FirebaseFirestore _firebaseFirestore;
+  late FirebaseFirestore _firebaseFirestore;
 
-  StoryRepository({
-    required FirebaseFirestore firebaseFirestore,
-  }) : _firebaseFirestore = firebaseFirestore ?? FirebaseFirestore.instance;
+  StoryRepository() {
+    _firebaseFirestore = FirebaseFirestore.instance;
+  }
 
   @override
   Future<StoryModel> createItem(StoryModel item) async {
@@ -34,27 +36,26 @@ class StoryRepository extends BaseStoryRepository {
 
   @override
   Future<void> deleteItem(String id) async {
-    var ref = await _firebaseFirestore.collection(dbCollectionPath).doc(id)
-        .delete();
+    var ref =
+        await _firebaseFirestore.collection(dbCollectionPath).doc(id).delete();
     //TODO: have a look at ref and see if we can enrich the return value
     return;
   }
 
   @override
   Future<List<StoryModel>> getAllItems() async {
-    QuerySnapshot<StoryModel> querySnapshot = await _firebaseFirestore
-        .collection(dbCollectionPath)
-        .get() as QuerySnapshot<StoryModel>;
+    var querySnapshot =
+        await _firebaseFirestore.collection(dbCollectionPath).get();
     return StoryModel.getUserListFromQuerySnapshot(querySnapshot);
   }
 
-  @override
-  Future<StoryModel?> getItemWithId(String id) async {
-    final doc = await _firebaseFirestore
-        .collection(dbCollectionPath)
-        .doc(id)
-        .get() as DocumentSnapshot<StoryModel>;
+  // @override
+  // Future<StoryModel?> getItemWithId(String id) async {
+  //   final doc = await _firebaseFirestore
+  //       .collection(dbCollectionPath)
+  //       .doc(id)
+  //       .get();
 
-    return doc.exists ? StoryModel.fromFirebaseDocument(doc) : null;
-  }
+  //   return doc.exists ? StoryModel.fromFirebaseDocument(doc) : null;
+  // }
 }
