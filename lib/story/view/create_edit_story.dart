@@ -18,7 +18,8 @@ class CreateEditStory extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Text(state.selectedStory.id == "new" ? "Create Story"
+                title: Text(state.selectedStory.id == "new"
+                    ? "Create Story"
                     : '${state.selectedStory.title} - Edit'),
               ),
               body: Form(
@@ -26,8 +27,8 @@ class CreateEditStory extends StatelessWidget {
                 child: Scrollbar(
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20,
-                          vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: Column(
                         children: [
                           TextFormField(
@@ -55,10 +56,21 @@ class CreateEditStory extends StatelessWidget {
                             ),
                             initialValue: state.selectedStory.imageUrl,
                             onChanged: (updatedImageUrl) {
+                              context.read<StoryCubit>().imageUrlChanged(
+                                  updatedImageUrl: updatedImageUrl);
+                            },
+                          ),
+                          SizedBox(height: 20),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              labelText: 'Youtube Video Link',
+                              border: OutlineInputBorder(),
+                            ),
+                            initialValue: state.selectedStory.youtubeUrl,
+                            onChanged: (updatedUrl) {
                               context
                                   .read<StoryCubit>()
-                                  .imageUrlChanged(
-                                  updatedImageUrl: updatedImageUrl);
+                                  .youtubeUrlChanged(youtubeUrl: updatedUrl);
                             },
                           ),
                           SizedBox(height: 20),
@@ -92,7 +104,7 @@ class CreateEditStory extends StatelessWidget {
                           ElevatedButton(
                               onPressed: () async {
                                 bool createEditSuccess = false;
-                                if(state.selectedStory.id == "new") {
+                                if (state.selectedStory.id == "new") {
                                   createEditSuccess = await context
                                       .read<StoryCubit>()
                                       .createNewStoryInDB();
@@ -102,24 +114,22 @@ class CreateEditStory extends StatelessWidget {
                                       .updateStoryInDB();
                                 }
 
-
                                 if (createEditSuccess) {
-
                                   Navigator.of(context).pushReplacementNamed(
                                       StoryView.routeName);
                                 } else {
                                   //error handling
                                   showDialog(
                                     context: context,
-                                    builder: (context) =>
-                                        AlertDialog(
-                                          title: Text(state.failure.code),
-                                          content: Text(state.failure.message),
-                                        ),
+                                    builder: (context) => AlertDialog(
+                                      title: Text(state.failure.code),
+                                      content: Text(state.failure.message),
+                                    ),
                                   );
                                 }
                               },
-                              child: Text(state.selectedStory.id == "new" ? "Create Story"
+                              child: Text(state.selectedStory.id == "new"
+                                  ? "Create Story"
                                   : 'Edit Story'))
                         ],
                       ),
