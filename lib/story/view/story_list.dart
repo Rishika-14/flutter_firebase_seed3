@@ -37,13 +37,42 @@ class StoryList extends StatelessWidget {
                         selectedStoryId: story.id as String);
                     Navigator.of(context).pushNamed(StoryView.routeName);
                   },
-                  trailing: IconButton(
-                    icon: Icon(Icons.delete),
-                    onPressed: () {
-                      context
-                          .read<StoryCubit>()
-                          .deleteStory(story.id as String);
-                    },
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            context.read<StoryCubit>().selectStoryForUpdating(
+                                selectedStoryId: story.id as String);
+                            Navigator.of(context)
+                                .pushNamed(CreateEditStory.routeName);
+                          },
+                          icon: Icon(Icons.edit)),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Delete'),
+                              content: Text(
+                                  'Are you sure you want to delete ${story.title}?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    context
+                                        .read<StoryCubit>()
+                                        .deleteStory(story.id as String);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Yes'),
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 );
               });
