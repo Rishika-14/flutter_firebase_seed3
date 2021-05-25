@@ -26,7 +26,8 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   //createNewStoryInDB
-  createNewStoryInDB(StoryModel story) async {
+  Future<bool> createNewStoryInDB() async {
+    var story = state.stories[0];
     emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
     try {
       var updatedStory = await _storyRepository.createItem(story);
@@ -34,6 +35,7 @@ class StoryCubit extends Cubit<StoryState> {
       updatedStories[0] = updatedStory;
       emit(state.copyWith(
           crudScreenStatus: CrudScreenStatus.loaded, stories: updatedStories));
+      return true;
     } catch (e) {
       emit(
         state.copyWith(
@@ -41,6 +43,7 @@ class StoryCubit extends Cubit<StoryState> {
           failure: Failure(message: 'Create Story in DB failed:$e'),
         ),
       );
+      return false;
     }
   }
 
@@ -50,11 +53,13 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   //updateStoryInDB
-  updateStoryInDB(StoryModel story) async {
+  Future<bool> updateStoryInDB() async {
+    var story = state.selectedStory;
     emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
     try {
       await _storyRepository.updateItem(story);
       emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loaded));
+      return true;
     } catch (e) {
       emit(
         state.copyWith(
@@ -62,6 +67,7 @@ class StoryCubit extends Cubit<StoryState> {
           failure: Failure(message: 'Update Story Failed : $e'),
         ),
       );
+      return false;
     }
   }
 
@@ -104,7 +110,7 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   //updateTitle
-  void titleChanged(String updatedTitle) {
+  void titleChanged({required String updatedTitle}) {
     var newStories = state.stories
         .map((story) => story.id == state.selectedStoryId
             ? story.copyWith(title: updatedTitle)
@@ -114,7 +120,7 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
 //updateImageUrl
-  void imageUrlChanged(String updatedImageUrl) {
+  void imageUrlChanged({required String updatedImageUrl}) {
     var newStories = state.stories
         .map((story) => story.id == state.selectedStoryId
             ? story.copyWith(imageUrl: updatedImageUrl)
@@ -124,7 +130,7 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
 //updateStoryMarkdown
-  void updateStoryMarkdown({required String markDownString}) {
+  void storyMarkdownChanged({required String markDownString}) {
     var newStories = state.stories
         .map((story) => story.id == state.selectedStoryId
             ? story.copyWith(storyMarkdown: markDownString)
@@ -135,7 +141,7 @@ class StoryCubit extends Cubit<StoryState> {
 
 //updateMoral
 
-  void updateMoral({required String moralString}) async {
+  void moralChanged({required String moralString}) async {
     var newStories = state.stories
         .map((story) => story.id == state.selectedStoryId
             ? story.copyWith(moral: moralString)

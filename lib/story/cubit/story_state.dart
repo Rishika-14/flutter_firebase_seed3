@@ -31,6 +31,10 @@ class StoryState extends Equatable {
         failure: const Failure());
   }
 
+  StoryModel get selectedStory {
+    return stories.firstWhere((story) => story.id == selectedStoryId);
+  }
+
   StoryState copyWith({
     //TODO: revisit and improvise this, remove the question marks to see the
     // error
