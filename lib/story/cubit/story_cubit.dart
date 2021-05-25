@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_firebase_seed3/models/failure.dart';
 import 'package:flutter_firebase_seed3/story/repository/story_repository.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_firebase_seed3/story/story_model.dart';
 
@@ -12,20 +11,97 @@ class StoryCubit extends Cubit<StoryState> {
 
   StoryCubit({required StoryRepository storyRepository})
       : _storyRepository = storyRepository,
-        super(StoryState.initial());
+        super(StoryState.initial()) {
+    getAllStories();
+  }
 
   //createEmptyStoryFor Story creation
   createEmptyStoryForStoryCreation() {
-    var newStory = Story.
+    var newStory = StoryModel.newStory();
+    List<StoryModel> newStories = [newStory, ...state.stories];
+    emit(state.copyWith(
+      stories: newStories,
+      selectedStoryId: newStory.id,
+    ));
   }
+
   //createNewStoryInDB
+  createNewStoryInDB(StoryModel story) async {
+    emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
+    try {
+      var updatedStory = await _storyRepository.createItem(story);
+      var updatedStories = state.stories;
+      updatedStories[0] = updatedStory;
+      emit(state.copyWith(
+          crudScreenStatus: CrudScreenStatus.loaded, stories: updatedStories));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(message: 'Create Story in DB failed:$e'),
+        ),
+      );
+    }
+  }
 
   //selectStoryForUpdating
+  void selectStoryForUpdating({required String selectedStoryId}) {
+    emit(state.copyWith(selectedStoryId: selectedStoryId));
+  }
+
   //updateStoryInDB
+  updateStoryInDB(StoryModel story) async {
+    emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
+    try {
+      await _storyRepository.updateItem(story);
+      emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loaded));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(message: 'Update Story Failed : $e'),
+        ),
+      );
+    }
+  }
 
   //deleteStory
+  deleteStory(String id) async {
+    emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
+    try {
+      await _storyRepository.deleteItem(id);
+      var updatedList =
+          state.stories.where((element) => element.id != id).toList();
+      emit(state.copyWith(
+          stories: updatedList, crudScreenStatus: CrudScreenStatus.loaded));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(message: 'Delete Story failed:$e'),
+        ),
+      );
+    }
+  }
 
   //Get All Stories
+  getAllStories() async {
+    // emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
+    try {
+      var allStories = await _storyRepository.getAllItems();
+      print('All Srories $allStories');
+      emit(state.copyWith(
+          stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
+    } catch (e) {
+      print(e);
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(message: 'Get all Stories failed : $e'),
+        ),
+      );
+    }
+  }
 
   //updateTitle
   void titleChanged(String upatedTitle) {
@@ -48,7 +124,23 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
 //updateStoryMarkdown
+  void updateStoryMarkdown({required String markDownString}) {
+    var newStories = state.stories
+        .map((story) => story.id == state.selectedStoryId
+            ? story.copyWith(storyMarkdown: markDownString)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
 
 //updateMoral
 
+  void updateMoral({required String moralString}) async {
+    var newStories = state.stories
+        .map((story) => story.id == state.selectedStoryId
+            ? story.copyWith(moral: moralString)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
 }

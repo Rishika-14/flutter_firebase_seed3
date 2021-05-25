@@ -35,13 +35,13 @@ class StoryState extends Equatable {
     //TODO: revisit and improvise this, remove the question marks to see the
     // error
     List<StoryModel>? stories,
-    String? selectedStory,
+    String? selectedStoryId,
     CrudScreenStatus? crudScreenStatus,
     Failure? failure,
   }) {
     return new StoryState(
       stories: stories ?? this.stories,
-      selectedStoryId: selectedStory ?? this.selectedStoryId,
+      selectedStoryId: selectedStoryId ?? this.selectedStoryId,
       crudScreenStatus: crudScreenStatus ?? this.crudScreenStatus,
       failure: failure ?? this.failure,
     );
