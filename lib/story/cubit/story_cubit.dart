@@ -104,10 +104,10 @@ class StoryCubit extends Cubit<StoryState> {
   }
 
   //updateTitle
-  void titleChanged(String upatedTitle) {
+  void titleChanged(String updatedTitle) {
     var newStories = state.stories
         .map((story) => story.id == state.selectedStoryId
-            ? story.copyWith(title: upatedTitle)
+            ? story.copyWith(title: updatedTitle)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));

@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: MyHomePage(),
+          initialRoute: CreateEditStory.routeName,
           routes: {
             CreateEditStory.routeName: (context) => CreateEditStory(),
           },
@@ -43,6 +43,8 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage();
+
+  static const route = '/home';
 
   @override
   Widget build(BuildContext context) {
