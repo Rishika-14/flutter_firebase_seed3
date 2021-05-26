@@ -149,4 +149,13 @@ class StoryCubit extends Cubit<StoryState> {
         .toList();
     emit(state.copyWith(stories: newStories));
   }
+
+  void youtubeUrlChanged({required String youtubeUrl}) async {
+    var newStories = state.stories
+        .map((story) => story.id == state.selectedStoryId
+            ? story.copyWith(youtubeUrl: youtubeUrl)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
 }

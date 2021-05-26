@@ -8,15 +8,16 @@ class StoryModel extends Equatable {
   final String? imageUrl;
   final String? storyMarkdown;
   final String? moral;
+  final String? youtubeUrl;
 
 //<editor-fold desc="Data Methods" defaultstate="collapsed">
-  StoryModel({
-    @required this.id,
-    @required this.title,
-    @required this.imageUrl,
-    @required this.storyMarkdown,
-    @required this.moral,
-  });
+  StoryModel(
+      {@required this.id,
+      @required this.title,
+      @required this.imageUrl,
+      @required this.storyMarkdown,
+      @required this.moral,
+      @required this.youtubeUrl});
 
   factory StoryModel.newStory() {
     return StoryModel(
@@ -25,45 +26,36 @@ class StoryModel extends Equatable {
       imageUrl: "",
       storyMarkdown: "",
       moral: "",
+      youtubeUrl: "",
     );
   }
 
-  StoryModel copyWith({
-    String? id,
-    String? title,
-    String? imageUrl,
-    String? storyMarkdown,
-    String? moral,
-  }) {
+  StoryModel copyWith(
+      {String? id,
+      String? title,
+      String? imageUrl,
+      String? storyMarkdown,
+      String? moral,
+      String? youtubeUrl}) {
     return new StoryModel(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      imageUrl: imageUrl ?? this.imageUrl,
-      storyMarkdown: storyMarkdown ?? this.storyMarkdown,
-      moral: moral ?? this.moral,
-    );
+        id: id ?? this.id,
+        title: title ?? this.title,
+        imageUrl: imageUrl ?? this.imageUrl,
+        storyMarkdown: storyMarkdown ?? this.storyMarkdown,
+        moral: moral ?? this.moral,
+        youtubeUrl: youtubeUrl ?? this.youtubeUrl);
   }
-
-  // factory StoryModel.fromMap(Map<String, dynamic> map) {
-  //   return new StoryModel(
-  //     id: map['id'] as String?,
-  //     title: map['title'] as String?,
-  //     imageUrl: map['imageUrl'] as String?,
-  //     storyMarkdown: map['storyMarkdown'] as String?,
-  //     moral: map['moral'] as String?,
-  //   );
-  // }
 
   factory StoryModel.fromFirebaseDocument(
       QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot) {
     final data = docSnapshot.data();
     return StoryModel(
-      id: docSnapshot.id,
-      title: data['title'],
-      imageUrl: data['imageUrl'],
-      storyMarkdown: data['storyMarkdown'],
-      moral: data['moral'],
-    );
+        id: docSnapshot.id,
+        title: data['title'],
+        imageUrl: data['imageUrl'],
+        storyMarkdown: data['storyMarkdown'],
+        moral: data['moral'],
+        youtubeUrl: data['youtubeUrl']);
   }
 
   Map<String, dynamic> toJson() {
@@ -72,6 +64,7 @@ class StoryModel extends Equatable {
       'imageUrl': this.imageUrl,
       'storyMarkdown': this.storyMarkdown,
       'moral': this.moral,
+      'youtubeUrl': this.youtubeUrl
     };
   }
 
@@ -79,7 +72,8 @@ class StoryModel extends Equatable {
   bool get stringify => true;
 
   @override
-  List<Object?> get props => [id, title, imageUrl, storyMarkdown, moral];
+  List<Object?> get props =>
+      [id, title, imageUrl, storyMarkdown, moral, youtubeUrl];
 
 //</editor-fold>
 
