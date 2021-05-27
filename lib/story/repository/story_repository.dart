@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_firebase_seed3/story/repository/base_story_repository.dart';
 import 'package:flutter_firebase_seed3/story/story_model.dart';

@@ -42,6 +42,7 @@ dependencies:
   flutter_markdown: ^0.6.2
   youtube_player_iframe: ^2.0.0
   uuid: ^3.0.4
+  path: ^1.8.0
 
 dev_dependencies:
   flutter_test:

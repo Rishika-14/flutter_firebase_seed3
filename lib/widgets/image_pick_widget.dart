@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:uuid/uuid.dart';
-import 'package:uuid/uuid_util.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class ImagePick extends StatelessWidget {
   final String? folderPath;
@@ -23,20 +26,20 @@ class ImagePick extends StatelessWidget {
    */
   getFirebaseStorageFilePath(String filename, bool addUUid) {
     String uuid = '';
-    if(addUUid) {
+    if (addUUid) {
       uuid = Uuid().v4() + "-";
     }
     String finalPath = '';
     if (folderPath != null) {
-      finalPath =
-          (folderPath as String) + "/" + uuid + filename;
+      finalPath = (folderPath as String) + "/" + uuid + filename;
     } else {
       finalPath = Uuid().v4() + uuid + filename;
-    };
+    }
+    ;
     return finalPath;
   }
 
-  void uploadImage() async {
+  void pickImageAndUploadToFirebase() async {
     if (kIsWeb) {
       try {
         html.FileUploadInputElement uploadInput = html.FileUploadInputElement()
@@ -49,8 +52,8 @@ class ImagePick extends StatelessWidget {
           final reader = html.FileReader();
           reader.readAsDataUrl(file);
           reader.onLoad.listen((event) async {
-            var firebaseStoragePath = getFirebaseStorageFilePath(
-                fileName, true);
+            var firebaseStoragePath =
+                getFirebaseStorageFilePath(fileName, true);
             var task = await FirebaseStorage.instance
                 .ref(firebaseStoragePath)
                 .putBlob(file);
@@ -67,12 +70,36 @@ class ImagePick extends StatelessWidget {
             imageUpdateHandler(url);
           });
         });
-      }
-      catch(ex) {
+      } catch (ex) {
         //TODO: handle exception
       }
     } else {
-      //todo for not web case
+      //android + iOS as image_picker only supports these
+      final picker = ImagePicker();
+      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      // final pickedFile = await picker.getImage(source: ImageSource.camera);
+      if (pickedFile != null) {
+        File file = File(pickedFile.path);
+        String filename = basename(file.path);
+
+        var firebaseStoragePath = getFirebaseStorageFilePath(filename, true);
+        var task = await FirebaseStorage.instance
+            .ref(firebaseStoragePath)
+            .putFile(file);
+
+        String url = await task.ref.getDownloadURL();
+        print('url is $url');
+
+        //todo: delete the older item
+        //keep a log of all the not required images in some
+        // list/map and delete them at the time of save/cancel
+        // FirebaseStorage.instance.refFromURL(selectedImage as String)
+        //     .delete();
+
+        imageUpdateHandler(url);
+      } else {
+        //TODO
+      }
     }
   }
 
@@ -80,7 +107,7 @@ class ImagePick extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        uploadImage();
+        pickImageAndUploadToFirebase();
       },
       child: Column(
         children: [

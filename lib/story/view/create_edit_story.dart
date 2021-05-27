@@ -128,7 +128,7 @@ class CreateEditStory extends StatelessWidget {
                               },
                               child: Text(state.selectedStory.id == "new"
                                   ? "Create Story"
-                                  : 'Edit Story'))
+                                  : 'Save Story'))
                         ],
                       ),
                     ),
