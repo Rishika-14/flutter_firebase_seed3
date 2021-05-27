@@ -1,7 +1,12 @@
+import 'dart:typed_data';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/story/view/story_view.dart';
+import 'package:flutter_firebase_seed3/widgets/image_pick_widget.dart';
 
 class CreateEditStory extends StatelessWidget {
   static const routeName = '/create-edit-story';
@@ -51,6 +56,7 @@ class CreateEditStory extends StatelessWidget {
                           SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(
+                              enabled: false,
                               labelText: 'Image URL',
                               border: OutlineInputBorder(),
                             ),
@@ -60,6 +66,7 @@ class CreateEditStory extends StatelessWidget {
                                   updatedImageUrl: updatedImageUrl);
                             },
                           ),
+                          ImagePick(),
                           SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(
