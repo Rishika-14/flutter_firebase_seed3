@@ -129,6 +129,16 @@ class StoryCubit extends Cubit<StoryState> {
     emit(state.copyWith(stories: newStories));
   }
 
+  //updateVideoUrl
+  void videoUrlChanged({required String updatedVideoUrl}) {
+    var newStories = state.stories
+        .map((story) => story.id == state.selectedStoryId
+            ? story.copyWith(videoUrl: updatedVideoUrl)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
 //updateStoryMarkdown
   void storyMarkdownChanged({required String markDownString}) {
     var newStories = state.stories

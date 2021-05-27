@@ -3,6 +3,7 @@ import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/story/view/story_view.dart';
 import 'package:flutter_firebase_seed3/widgets/image_pick_widget.dart';
+import 'package:flutter_firebase_seed3/widgets/video_pick_widget.dart';
 
 class CreateEditStory extends StatelessWidget {
   static const routeName = '/create-edit-story';
@@ -57,6 +58,14 @@ class CreateEditStory extends StatelessWidget {
                                   updatedImageUrl: updatedImageUrl);
                             },
                             selectedImage: state.selectedStory.imageUrl,
+                          ),
+                          VideoPick(
+                            folderPath: 'story_videos',
+                            imageUpdateHandler: (updatedVideoUrl) {
+                              context.read<StoryCubit>().videoUrlChanged(
+                                  updatedVideoUrl: updatedVideoUrl);
+                            },
+                            selectedVideo: state.selectedStory.videoUrl,
                           ),
                           SizedBox(height: 20),
                           TextFormField(

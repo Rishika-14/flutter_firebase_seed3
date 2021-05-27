@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
 import 'package:flutter_firebase_seed3/story/view/create_edit_story.dart';
+import 'package:flutter_firebase_seed3/widgets/video_player_view.dart';
+import 'package:flutter_firebase_seed3/widgets/youtube_widget.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class StoryView extends StatefulWidget {
   static const routeName = '/story-view';
@@ -26,7 +24,22 @@ class _StoryViewState extends State<StoryView> {
           ),
           body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  state.selectedStory.title as String,
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                ),
+                Text(state.selectedStory.moral as String),
+                if (state.selectedStory.videoUrl != '')
+                  VideoPlayerWidget(videoURL: state.selectedStory.videoUrl),
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Image.network(
+                    state.selectedStory.imageUrl as String,
+                  ),
+                ),
                 if (state.selectedStory.youtubeUrl != null)
                   YoutubeWidget(state.selectedStory.youtubeUrl as String),
                 Container(
@@ -47,62 +60,5 @@ class _StoryViewState extends State<StoryView> {
         );
       },
     );
-  }
-}
-
-class YoutubeWidget extends StatefulWidget {
-  String videoURL;
-  YoutubeWidget(this.videoURL);
-  @override
-  _YoutubeWidgetState createState() => _YoutubeWidgetState();
-}
-
-class _YoutubeWidgetState extends State<YoutubeWidget> {
-  late YoutubePlayerController _controller;
-
-  String getYouTubeVideoID() {
-    String url = widget.videoURL;
-    url = url.replaceAll("https://www.youtube.com/watch?v=", "");
-    url = url.replaceAll("https://m.youtube.com/watch?v=", "");
-    url = url.replaceAll("https://youtu.be/", "");
-    return url;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: getYouTubeVideoID(),
-      params: const YoutubePlayerParams(
-        // playlist: [
-        //   'CCqJTaqRiyA',
-        //   'K18cpp_-gP8',
-        // ],
-        showControls: true,
-        showFullscreenButton: true,
-        desktopMode: true,
-        privacyEnhanced: true,
-        useHybridComposition: true,
-      ),
-    );
-    _controller.onEnterFullscreen = () {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
-      log('Entered Fullscreen');
-    };
-    _controller.onExitFullscreen = () {
-      log('Exited Fullscreen');
-    };
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return YoutubePlayerIFrame(
-        controller: _controller,
-      );
-    });
   }
 }

@@ -6,6 +6,7 @@ class StoryModel extends Equatable {
   final String? id;
   final String? title;
   final String? imageUrl;
+  final String? videoUrl;
   final String? storyMarkdown;
   final String? moral;
   final String? youtubeUrl;
@@ -15,6 +16,7 @@ class StoryModel extends Equatable {
       {@required this.id,
       @required this.title,
       @required this.imageUrl,
+      @required this.videoUrl,
       @required this.storyMarkdown,
       @required this.moral,
       @required this.youtubeUrl});
@@ -24,6 +26,7 @@ class StoryModel extends Equatable {
       id: "new",
       title: "",
       imageUrl: "",
+      videoUrl: '',
       storyMarkdown: "",
       moral: "",
       youtubeUrl: "",
@@ -34,6 +37,7 @@ class StoryModel extends Equatable {
       {String? id,
       String? title,
       String? imageUrl,
+      String? videoUrl,
       String? storyMarkdown,
       String? moral,
       String? youtubeUrl}) {
@@ -41,6 +45,7 @@ class StoryModel extends Equatable {
         id: id ?? this.id,
         title: title ?? this.title,
         imageUrl: imageUrl ?? this.imageUrl,
+        videoUrl: videoUrl ?? this.videoUrl,
         storyMarkdown: storyMarkdown ?? this.storyMarkdown,
         moral: moral ?? this.moral,
         youtubeUrl: youtubeUrl ?? this.youtubeUrl);
@@ -53,6 +58,7 @@ class StoryModel extends Equatable {
         id: docSnapshot.id,
         title: data['title'],
         imageUrl: data['imageUrl'],
+        videoUrl: data['videoUrl'],
         storyMarkdown: data['storyMarkdown'],
         moral: data['moral'],
         youtubeUrl: data['youtubeUrl']);
@@ -62,6 +68,7 @@ class StoryModel extends Equatable {
     return {
       'title': this.title,
       'imageUrl': this.imageUrl,
+      'videoUrl': this.videoUrl,
       'storyMarkdown': this.storyMarkdown,
       'moral': this.moral,
       'youtubeUrl': this.youtubeUrl
@@ -73,7 +80,7 @@ class StoryModel extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, title, imageUrl, storyMarkdown, moral, youtubeUrl];
+      [id, title, imageUrl, videoUrl, storyMarkdown, moral, youtubeUrl];
 
 //</editor-fold>
 
