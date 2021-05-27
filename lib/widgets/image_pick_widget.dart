@@ -1,38 +1,76 @@
 import 'package:flutter/foundation.dart';
 import 'package:universal_html/html.dart' as html;
+import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_util.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
-class ImagePick extends StatefulWidget {
-  @override
-  _ImagePickState createState() => _ImagePickState();
-}
+class ImagePick extends StatelessWidget {
+  final String? folderPath;
+  final Function imageUpdateHandler;
+  final String? selectedImage;
 
-class _ImagePickState extends State<ImagePick> {
-  String? imageUrl;
+  const ImagePick({
+    this.folderPath,
+    required this.imageUpdateHandler,
+    this.selectedImage,
+  });
+
+  /**
+   * Generate a firebase savable path based on filename and weather uuid
+   * should be used.
+   */
+  getFirebaseStorageFilePath(String filename, bool addUUid) {
+    String uuid = '';
+    if(addUUid) {
+      uuid = Uuid().v4() + "-";
+    }
+    String finalPath = '';
+    if (folderPath != null) {
+      finalPath =
+          (folderPath as String) + "/" + uuid + filename;
+    } else {
+      finalPath = Uuid().v4() + uuid + filename;
+    };
+    return finalPath;
+  }
+
   void uploadImage() async {
     if (kIsWeb) {
-      html.FileUploadInputElement uploadInput = html.FileUploadInputElement()
-        ..accept = 'image/*';
-      uploadInput.click();
+      try {
+        html.FileUploadInputElement uploadInput = html.FileUploadInputElement()
+          ..accept = 'image/*';
+        uploadInput.click();
 
-      uploadInput.onChange.listen((event) {
-        final file = uploadInput.files!.first;
-        final fileName = uploadInput.files!.single.name;
-        final reader = html.FileReader();
-        reader.readAsDataUrl(file);
-        reader.onLoad.listen((event) async {
-          var task = await FirebaseStorage.instance
-              .ref('uploads/$fileName')
-              .putBlob(file);
-          String url = await task.ref.getDownloadURL();
-          print('url is $url');
-          setState(() {
-            imageUrl = url;
+        uploadInput.onChange.listen((event) {
+          final file = uploadInput.files!.first;
+          final fileName = uploadInput.files!.single.name;
+          final reader = html.FileReader();
+          reader.readAsDataUrl(file);
+          reader.onLoad.listen((event) async {
+            var firebaseStoragePath = getFirebaseStorageFilePath(
+                fileName, true);
+            var task = await FirebaseStorage.instance
+                .ref(firebaseStoragePath)
+                .putBlob(file);
+
+            String url = await task.ref.getDownloadURL();
+            print('url is $url');
+
+            //todo: delete the older item
+            //keep a log of all the not required images in some
+            // list/map and delete them at the time of save/cancel
+            // FirebaseStorage.instance.refFromURL(selectedImage as String)
+            //     .delete();
+
+            imageUpdateHandler(url);
           });
         });
-      });
+      }
+      catch(ex) {
+        //TODO: handle exception
+      }
     } else {
       //todo for not web case
     }
@@ -50,10 +88,10 @@ class _ImagePickState extends State<ImagePick> {
               height: 100,
               width: 100,
               color: Colors.white,
-              child: imageUrl == null
+              child: (selectedImage == null || selectedImage == '')
                   ? Icon(Icons.image)
                   : Image.network(
-                      imageUrl!,
+                      selectedImage!,
                       fit: BoxFit.cover,
                     )),
           Text('Upload Image'),

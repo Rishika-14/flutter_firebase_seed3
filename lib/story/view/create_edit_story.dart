@@ -50,19 +50,14 @@ class CreateEditStory extends StatelessWidget {
                             },
                           ),
                           SizedBox(height: 20),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              enabled: false,
-                              labelText: 'Image URL',
-                              border: OutlineInputBorder(),
-                            ),
-                            initialValue: state.selectedStory.imageUrl,
-                            onChanged: (updatedImageUrl) {
+                          ImagePick(
+                            folderPath: 'story_images',
+                            imageUpdateHandler: (updatedImageUrl) {
                               context.read<StoryCubit>().imageUrlChanged(
                                   updatedImageUrl: updatedImageUrl);
                             },
+                            selectedImage: state.selectedStory.imageUrl,
                           ),
-                          ImagePick(),
                           SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(
