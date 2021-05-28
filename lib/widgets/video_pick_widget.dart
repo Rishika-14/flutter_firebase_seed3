@@ -9,16 +9,23 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
-class ImagePick extends StatelessWidget {
+class VideoPick extends StatefulWidget {
   final String? folderPath;
   final Function imageUpdateHandler;
-  final String? selectedImage;
+  final String? selectedVideo;
 
-  const ImagePick({
+  VideoPick({
     this.folderPath,
     required this.imageUpdateHandler,
-    this.selectedImage,
+    this.selectedVideo,
   });
+
+  @override
+  State<VideoPick> createState() => _VideoPickState();
+}
+
+class _VideoPickState extends State<VideoPick> {
+  bool uploading = false;
 
   /**
    * Generate a firebase savable path based on filename and weather uuid
@@ -30,8 +37,8 @@ class ImagePick extends StatelessWidget {
       uuid = Uuid().v4() + "-";
     }
     String finalPath = '';
-    if (folderPath != null) {
-      finalPath = (folderPath as String) + "/" + uuid + filename;
+    if (widget.folderPath != null) {
+      finalPath = (widget.folderPath as String) + "/" + uuid + filename;
     } else {
       finalPath = Uuid().v4() + uuid + filename;
     }
@@ -39,11 +46,11 @@ class ImagePick extends StatelessWidget {
     return finalPath;
   }
 
-  void pickImageAndUploadToFirebase() async {
+  void pickVideoAndUploadToFirebase() async {
     if (kIsWeb) {
       try {
         html.FileUploadInputElement uploadInput = html.FileUploadInputElement()
-          ..accept = 'image/*';
+          ..accept = 'video/*';
         uploadInput.click();
 
         uploadInput.onChange.listen((event) {
@@ -54,10 +61,15 @@ class ImagePick extends StatelessWidget {
           reader.onLoad.listen((event) async {
             var firebaseStoragePath =
                 getFirebaseStorageFilePath(fileName, true);
+            setState(() {
+              uploading = true;
+            });
             var task = await FirebaseStorage.instance
                 .ref(firebaseStoragePath)
                 .putBlob(file);
-
+            setState(() {
+              uploading = false;
+            });
             String url = await task.ref.getDownloadURL();
             print('url is $url');
 
@@ -67,7 +79,7 @@ class ImagePick extends StatelessWidget {
             // FirebaseStorage.instance.refFromURL(selectedImage as String)
             //     .delete();
 
-            imageUpdateHandler(url);
+            widget.imageUpdateHandler(url);
           });
         });
       } catch (ex) {
@@ -76,7 +88,7 @@ class ImagePick extends StatelessWidget {
     } else {
       //android + iOS as image_picker only supports these
       final picker = ImagePicker();
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
+      final pickedFile = await picker.getVideo(source: ImageSource.gallery);
       // final pickedFile = await picker.getImage(source: ImageSource.camera);
       if (pickedFile != null) {
         File file = File(pickedFile.path);
@@ -96,7 +108,7 @@ class ImagePick extends StatelessWidget {
         // FirebaseStorage.instance.refFromURL(selectedImage as String)
         //     .delete();
 
-        imageUpdateHandler(url);
+        widget.imageUpdateHandler(url);
       } else {
         //TODO
       }
@@ -105,25 +117,20 @@ class ImagePick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        pickImageAndUploadToFirebase();
-      },
-      child: Column(
-        children: [
-          Container(
-              height: 100,
-              width: 100,
-              color: Colors.white,
-              child: (selectedImage == null || selectedImage == '')
-                  ? Icon(Icons.image)
-                  : Image.network(
-                      selectedImage!,
-                      fit: BoxFit.cover,
-                    )),
-          Text('Upload Image'),
-        ],
-      ),
+    return Row(
+      children: [
+        ElevatedButton(
+            onPressed: () {
+              pickVideoAndUploadToFirebase();
+            },
+            child: (widget.selectedVideo == null || widget.selectedVideo == '')
+                ? Icon(Icons.video_library)
+                : Text('Uploaded')),
+        Visibility(
+          child: CircularProgressIndicator(),
+          visible: uploading,
+        ),
+      ],
     );
   }
 }
