@@ -4,9 +4,11 @@ import 'package:video_player/video_player.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   String? videoURL;
+
   VideoPlayerWidget({this.videoURL}) {
     print('Video Url$videoURL');
   }
+
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
 }
@@ -23,21 +25,27 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   Future<void> initializePlayer() async {
-    _videoPlayerController =
-        VideoPlayerController.network(widget.videoURL as String);
+    if (widget.videoURL != null) {
+      _videoPlayerController =
+          VideoPlayerController.network(widget.videoURL as String);
+      await _videoPlayerController.initialize();
 
-    await _videoPlayerController.initialize();
-    _chewieController =
-        ChewieController(videoPlayerController: _videoPlayerController);
+      _chewieController =
+          ChewieController(videoPlayerController: _videoPlayerController);
 
-    setState(() {
-      loading = false;
-    });
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return !loading ? Chewie(controller: _chewieController) : Text('Loading');
+    return !loading
+        ? Chewie(controller: _chewieController)
+        : Center(
+            child: CircularProgressIndicator(),
+          );
   }
 
   @override

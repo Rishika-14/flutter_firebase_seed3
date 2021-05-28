@@ -40,6 +40,8 @@ class _YoutubeWidgetState extends State<YoutubeWidget> {
       ),
     );
     _controller.onEnterFullscreen = () {
+      //TODO: record initial orientation of the user in state, set it back
+      // once the user exits the full screen mode.
       SystemChrome.setPreferredOrientations([
         DeviceOrientation.landscapeLeft,
         DeviceOrientation.landscapeRight,
@@ -47,6 +49,10 @@ class _YoutubeWidgetState extends State<YoutubeWidget> {
       print('Entered Fullscreen');
     };
     _controller.onExitFullscreen = () {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
       print('Exited Fullscreen');
     };
   }

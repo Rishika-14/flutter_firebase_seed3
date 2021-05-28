@@ -11,12 +11,12 @@ import 'package:path/path.dart';
 
 class VideoPick extends StatefulWidget {
   final String? folderPath;
-  final Function imageUpdateHandler;
+  final Function videoUpdateHandler;
   final String? selectedVideo;
 
   VideoPick({
     this.folderPath,
-    required this.imageUpdateHandler,
+    required this.videoUpdateHandler,
     this.selectedVideo,
   });
 
@@ -79,7 +79,7 @@ class _VideoPickState extends State<VideoPick> {
             // FirebaseStorage.instance.refFromURL(selectedImage as String)
             //     .delete();
 
-            widget.imageUpdateHandler(url);
+            widget.videoUpdateHandler(url);
           });
         });
       } catch (ex) {
@@ -88,8 +88,11 @@ class _VideoPickState extends State<VideoPick> {
     } else {
       //android + iOS as image_picker only supports these
       final picker = ImagePicker();
-      final pickedFile = await picker.getVideo(source: ImageSource.gallery);
-      // final pickedFile = await picker.getImage(source: ImageSource.camera);
+      final pickedFile = await picker.getVideo(
+        source: ImageSource.camera,
+        preferredCameraDevice: CameraDevice.rear,
+      );
+      // final pickedFile = await picker.getImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         File file = File(pickedFile.path);
         String filename = basename(file.path);
@@ -108,7 +111,7 @@ class _VideoPickState extends State<VideoPick> {
         // FirebaseStorage.instance.refFromURL(selectedImage as String)
         //     .delete();
 
-        widget.imageUpdateHandler(url);
+        widget.videoUpdateHandler(url);
       } else {
         //TODO
       }

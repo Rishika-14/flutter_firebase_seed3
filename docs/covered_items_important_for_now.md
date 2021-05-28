@@ -6,16 +6,15 @@
         * Phone
     * **Firestore**
     * Cloud functions
-    * Cloud messaging
-    * Cloud storage
-        * Add video and see the video
-        * Add Audio and see the audio
+    * Cloud messaging (Cloud notifications.) (KT from Sanket)
+    * **Cloud storage**
+        * **Add video and see the video**
         * **Add image and see the image.**
-    * Crashalytics
+    * Crashalytics (KT from Sanket)
     * Beta
-        * Analytics
-        * Performance monitoring
-    * Show the ads
+        * Analytics (KT from Sanket)
+        * Performance monitoring (KT from Sanket)
+    * Show the ads (KT from Sanket)
     * Enable all of these items in each of the environments.
         * Android
         * Web
@@ -34,9 +33,8 @@
     * Force Upgrade for user
     * Down for Maintenance (Kill Switch)
     * In App review support
-* Different kinds of components
-    * Video
-    * Audio
+* **Different kinds of components**
+    * **Video**
     * **Image, (Web cors issue also covered)**
     * **YouTube Player**
     * **Rich text using markdown**

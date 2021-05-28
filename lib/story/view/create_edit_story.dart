@@ -61,7 +61,7 @@ class CreateEditStory extends StatelessWidget {
                           ),
                           VideoPick(
                             folderPath: 'story_videos',
-                            imageUpdateHandler: (updatedVideoUrl) {
+                            videoUpdateHandler: (updatedVideoUrl) {
                               context.read<StoryCubit>().videoUrlChanged(
                                   updatedVideoUrl: updatedVideoUrl);
                             },
