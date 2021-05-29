@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/story/view/story_view.dart';
-import 'package:flutter_firebase_seed3/widgets/image_pick_widget.dart';
-import 'package:flutter_firebase_seed3/widgets/video_pick_widget.dart';
+
+import './story_view.dart';
+import '../../../widgets/image_pick_widget.dart';
+import '../../../widgets/video_pick_widget.dart';
+import '../cubit/story_cubit.dart';
 
 class CreateEditStory extends StatelessWidget {
   static const routeName = '/create-edit-story';

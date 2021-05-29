@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/story/view/story_view.dart';
+
+import './story_view.dart';
 import '../cubit/story_cubit.dart';
-import '../story_model.dart';
+import '../model/story_model.dart';
 import 'create_edit_story.dart';
 
 class StoryList extends StatelessWidget {

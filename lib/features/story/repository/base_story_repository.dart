@@ -1,4 +1,4 @@
-import '../story_model.dart';
+import '../model/story_model.dart';
 
 abstract class BaseStoryRepository {
   // Future<StoryModel?> getItemWithId(String id);

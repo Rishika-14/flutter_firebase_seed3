@@ -1,15 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
-import 'package:flutter_firebase_seed3/story/story_model.dart';
-import 'package:flutter_firebase_seed3/story/view/create_edit_story.dart';
-import 'package:flutter_firebase_seed3/story/view/story_list.dart';
-import 'package:flutter_firebase_seed3/story/view/story_view.dart';
+
+import './features/story/cubit/story_cubit.dart';
+import './features/story/repository/story_repository.dart';
+import './features/story/view/create_edit_story.dart';
+import './features/story/view/story_list.dart';
+import './features/story/view/story_view.dart';
 import 'bloc/simple_bloc_observer.dart';
-import 'story/cubit/story_cubit.dart';
-import 'story/repository/story_repository.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,4 +42,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

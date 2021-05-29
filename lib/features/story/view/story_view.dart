@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/story/cubit/story_cubit.dart';
-import 'package:flutter_firebase_seed3/story/view/create_edit_story.dart';
-import 'package:flutter_firebase_seed3/widgets/video_player_view.dart';
-import 'package:flutter_firebase_seed3/widgets/youtube_widget.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+
+import './create_edit_story.dart';
+import '../../../widgets/video_player_view.dart';
+import '../../../widgets/youtube_widget.dart';
+import '../cubit/story_cubit.dart';
 
 class StoryView extends StatefulWidget {
   static const routeName = '/story-view';

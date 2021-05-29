@@ -1,13 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:universal_html/html.dart' as html;
 import 'package:uuid/uuid.dart';
-import 'package:image_picker/image_picker.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 class ImagePick extends StatelessWidget {
   final String? folderPath;

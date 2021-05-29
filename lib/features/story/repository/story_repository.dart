@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_firebase_seed3/story/repository/base_story_repository.dart';
-import 'package:flutter_firebase_seed3/story/story_model.dart';
-import 'package:meta/meta.dart';
+
+import './base_story_repository.dart';
+import '../model/story_model.dart';
 
 class StoryRepository extends BaseStoryRepository {
   static const dbCollectionPath = 'stories';

@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_firebase_seed3/models/failure.dart';
-import 'package:flutter_firebase_seed3/story/repository/story_repository.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_firebase_seed3/story/story_model.dart';
+
+import '../../common_models/failure.dart';
+import '../model/story_model.dart';
+import '../repository/story_repository.dart';
 
 part 'story_state.dart';
 
