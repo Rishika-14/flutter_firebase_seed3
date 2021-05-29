@@ -21,11 +21,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider<StoryRepository>(
-      create: (context) => StoryRepository(),
-      child: BlocProvider<StoryCubit>(
-        create: (context) =>
-            StoryCubit(storyRepository: context.read<StoryRepository>()),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<StoryRepository>(
+            create: (context) => StoryRepository())
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<StoryCubit>(
+            create: (context) => StoryCubit(
+              storyRepository: context.read<StoryRepository>(),
+            ),
+          ),
+        ],
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
