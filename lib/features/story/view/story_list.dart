@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_seed3/features/authentication/auth/auth_bloc.dart';
+import 'package:flutter_firebase_seed3/features/authentication/login/login_cubit.dart';
 
 import './story_view.dart';
 import '../cubit/story_cubit.dart';
@@ -25,6 +27,18 @@ class StoryList extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Stories (${state.stories.length})'),
+            actions: [
+              TextButton(
+                  style: ButtonStyle(
+                      foregroundColor: MaterialStateProperty.all(Colors.white)),
+                  onPressed: () {
+                    context.read<LoginCubit>().logout();
+                  },
+                  child: Text(
+                    'Sign Out',
+                    style: TextStyle(color: Colors.white),
+                  ))
+            ],
           ),
           body: ListView.builder(
               itemCount: state.stories.length,
@@ -64,6 +78,7 @@ class StoryList extends StatelessWidget {
                                   'Are you sure you want to delete ${story.title}?'),
                               actions: [
                                 TextButton(
+                                  //todo : Update with Soft Delete Method
                                   onPressed: () {
                                     context
                                         .read<StoryCubit>()
@@ -71,7 +86,12 @@ class StoryList extends StatelessWidget {
                                     Navigator.pop(context);
                                   },
                                   child: Text('Yes'),
-                                )
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('No'))
                               ],
                             ),
                           );
