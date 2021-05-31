@@ -24,8 +24,7 @@ class StoryList extends StatelessWidget {
       } else if (state.crudScreenStatus == CrudScreenStatus.loaded) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-                'Stories (${state.stories.length})'),
+            title: Text('Stories (${state.stories.length})'),
           ),
           body: ListView.builder(
               itemCount: state.stories.length,
@@ -33,7 +32,11 @@ class StoryList extends StatelessWidget {
                 StoryModel story = state.stories[index];
 
                 return ListTile(
-                  title: Text(story.title ?? ''),
+                  title: Text("${story.title} ?? ''"),
+                  // last update timestamp view
+                  // title: Text("${story.title} ?? ''" +
+                  //     " - " +
+                  //     "${story.lastUpdated == null ? 'null' : story.lastUpdated.toString()}"),
                   onTap: () {
                     context.read<StoryCubit>().selectStoryForUpdating(
                         selectedStoryId: story.id as String);

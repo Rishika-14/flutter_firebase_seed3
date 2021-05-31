@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-class StoryModel extends Equatable {
+class StoryModel extends Equatable implements Comparable<StoryModel>{
   final String id;
   final String? title;
   final String? imageUrl;
@@ -106,5 +106,19 @@ class StoryModel extends Equatable {
       stories.add(story!);
     });
     return stories;
+  }
+
+  @override
+  int compareTo(StoryModel other) {
+    if(this.lastUpdated != null && other.lastUpdated != null) {
+      return other.lastUpdated!.compareTo(this.lastUpdated!);
+    }
+    else if(this.lastUpdated != null || other.lastUpdated == null) {
+      return -1;
+    }
+    else if(this.lastUpdated == null || other.lastUpdated != null) {
+      return 1;
+    }
+    return 0;
   }
 }
