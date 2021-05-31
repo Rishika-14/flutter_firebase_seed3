@@ -8,13 +8,13 @@ class ActivityModel with EquatableMixin{
   final bool deleted;
 
   //admin only screens
-  final String? comments;
+  final String? adminOnlyComments;
 
   ActivityModel({
     required this.uid,
     required this.createUpdateInfo,
     this.tags,
-    this.comments,
+    this.adminOnlyComments,
     required this.deleted,
   });
 
@@ -23,10 +23,10 @@ class ActivityModel with EquatableMixin{
       'createUpdateInfo': this.createUpdateInfo,
       'tags': this.tags,
       'deleted': this.deleted,
-      'comments': this.comments,
+      'comments': this.adminOnlyComments,
     };
   }
 
   @override
-  List<Object?> get props => [uid, createUpdateInfo, tags, deleted, comments];
+  List<Object?> get props => [uid, createUpdateInfo, tags, deleted, adminOnlyComments];
 }

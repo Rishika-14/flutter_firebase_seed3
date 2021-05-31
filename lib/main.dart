@@ -14,7 +14,6 @@ void main() async {
   await Firebase.initializeApp();
   Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {

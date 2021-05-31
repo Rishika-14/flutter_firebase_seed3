@@ -31,11 +31,14 @@ class StoryCubit extends Cubit<StoryState> {
     var story = state.stories[0];
     emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
     try {
-      var updatedStory = await _storyRepository.createItem(story);
+      var createdStoryFromDB = await _storyRepository.createItem(story);
       var updatedStories = state.stories;
-      updatedStories[0] = updatedStory;
+      updatedStories[0] = createdStoryFromDB;
       emit(state.copyWith(
-          crudScreenStatus: CrudScreenStatus.loaded, stories: updatedStories));
+        crudScreenStatus: CrudScreenStatus.loaded,
+        stories: updatedStories,
+        selectedStoryId: createdStoryFromDB.id,
+      ));
       return true;
     } catch (e) {
       emit(
@@ -96,7 +99,7 @@ class StoryCubit extends Cubit<StoryState> {
     // emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
     try {
       var allStories = await _storyRepository.getAllItems();
-      print('All Srories $allStories');
+      print('All Stories $allStories');
       emit(state.copyWith(
           stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
     } catch (e) {

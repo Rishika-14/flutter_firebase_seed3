@@ -13,20 +13,21 @@ class StoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Hello world'),
-      ),
-      body: BlocBuilder<StoryCubit, StoryState>(builder: (context, state) {
-        if (state.crudScreenStatus == CrudScreenStatus.initial) {
-          return Center(child: Text('Initial'));
-        } else if (state.crudScreenStatus == CrudScreenStatus.loading) {
-          return Center(
+    return BlocBuilder<StoryCubit, StoryState>(builder: (context, state) {
+      if (state.crudScreenStatus == CrudScreenStatus.initial ||
+          state.crudScreenStatus == CrudScreenStatus.loading) {
+        return Scaffold(
+          body: Center(
             child: CircularProgressIndicator(),
-          );
-        } else if (state.crudScreenStatus == CrudScreenStatus.loaded) {
-          print('Received ${state.stories.length}');
-          return ListView.builder(
+          ),
+        );
+      } else if (state.crudScreenStatus == CrudScreenStatus.loaded) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+                'Stories (${state.stories.length})'),
+          ),
+          body: ListView.builder(
               itemCount: state.stories.length,
               itemBuilder: (context, index) {
                 StoryModel story = state.stories[index];
@@ -76,20 +77,25 @@ class StoryList extends StatelessWidget {
                     ],
                   ),
                 );
-              });
-        } else {
-          return Center(
+              }),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              context.read<StoryCubit>().createEmptyStoryForStoryCreation();
+              Navigator.of(context).pushNamed(CreateEditStory.routeName);
+            },
+          ),
+        );
+      } else {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('An Error Occurred'),
+          ),
+          body: Center(
             child: Text('Error'),
-          );
-        }
-      }),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          context.read<StoryCubit>().createEmptyStoryForStoryCreation();
-          Navigator.of(context).pushNamed(CreateEditStory.routeName);
-        },
-      ),
-    );
+          ),
+        );
+      }
+    });
   }
 }

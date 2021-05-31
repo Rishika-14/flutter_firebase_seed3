@@ -3,23 +3,26 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 class StoryModel extends Equatable {
-  final String? id;
+  final String id;
   final String? title;
   final String? imageUrl;
   final String? videoUrl;
   final String? storyMarkdown;
   final String? moral;
   final String? youtubeUrl;
+  final Timestamp? lastUpdated;
 
 //<editor-fold desc="Data Methods" defaultstate="collapsed">
-  StoryModel(
-      {@required this.id,
-      @required this.title,
-      @required this.imageUrl,
-      @required this.videoUrl,
-      @required this.storyMarkdown,
-      @required this.moral,
-      @required this.youtubeUrl});
+  StoryModel({
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+    required this.videoUrl,
+    required this.storyMarkdown,
+    required this.moral,
+    required this.youtubeUrl,
+    this.lastUpdated,
+  });
 
   factory StoryModel.newStory() {
     return StoryModel(
@@ -30,38 +33,48 @@ class StoryModel extends Equatable {
       storyMarkdown: "",
       moral: "",
       youtubeUrl: "",
+      lastUpdated: null,
     );
   }
 
-  StoryModel copyWith(
-      {String? id,
-      String? title,
-      String? imageUrl,
-      String? videoUrl,
-      String? storyMarkdown,
-      String? moral,
-      String? youtubeUrl}) {
+  StoryModel copyWith({
+    String? id,
+    String? title,
+    String? imageUrl,
+    String? videoUrl,
+    String? storyMarkdown,
+    String? moral,
+    String? youtubeUrl,
+    Timestamp? lastUpdated,
+  }) {
     return new StoryModel(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        imageUrl: imageUrl ?? this.imageUrl,
-        videoUrl: videoUrl ?? this.videoUrl,
-        storyMarkdown: storyMarkdown ?? this.storyMarkdown,
-        moral: moral ?? this.moral,
-        youtubeUrl: youtubeUrl ?? this.youtubeUrl);
+      id: id ?? this.id,
+      title: title ?? this.title,
+      imageUrl: imageUrl ?? this.imageUrl,
+      videoUrl: videoUrl ?? this.videoUrl,
+      storyMarkdown: storyMarkdown ?? this.storyMarkdown,
+      moral: moral ?? this.moral,
+      youtubeUrl: youtubeUrl ?? this.youtubeUrl,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
   }
 
-  factory StoryModel.fromFirebaseDocument(
-      QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot) {
-    final data = docSnapshot.data();
-    return StoryModel(
+  static StoryModel? fromFirebaseDocument(
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot) {
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data();
+      return StoryModel(
         id: docSnapshot.id,
-        title: data['title'],
+        title: data!['title'],
         imageUrl: data['imageUrl'],
         videoUrl: data['videoUrl'],
         storyMarkdown: data['storyMarkdown'],
         moral: data['moral'],
-        youtubeUrl: data['youtubeUrl']);
+        youtubeUrl: data['youtubeUrl'],
+        lastUpdated: data['lastUpdated'],
+      );
+    }
+    return null;
   }
 
   Map<String, dynamic> toJson() {
@@ -71,7 +84,8 @@ class StoryModel extends Equatable {
       'videoUrl': this.videoUrl,
       'storyMarkdown': this.storyMarkdown,
       'moral': this.moral,
-      'youtubeUrl': this.youtubeUrl
+      'youtubeUrl': this.youtubeUrl,
+      'lastUpdated': Timestamp.now()
     };
   }
 
@@ -84,11 +98,12 @@ class StoryModel extends Equatable {
 
 //</editor-fold>
 
-  static List<StoryModel> getUserListFromQuerySnapshot(
+  static List<StoryModel> getStoryListFromQuerySnapshot(
       QuerySnapshot<Map<String, dynamic>> querySnapshot) {
     List<StoryModel> stories = [];
     querySnapshot.docs.forEach((storySnapshot) {
-      stories.add(StoryModel.fromFirebaseDocument(storySnapshot));
+      var story = StoryModel.fromFirebaseDocument(storySnapshot);
+      stories.add(story!);
     });
     return stories;
   }

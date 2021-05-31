@@ -32,7 +32,9 @@ class StoryState extends Equatable {
   }
 
   StoryModel get selectedStory {
-    return stories.firstWhere((story) => story.id == selectedStoryId);
+    var selectedStory =
+        stories.firstWhere((story) => story.id == selectedStoryId);
+    return selectedStory;
   }
 
   StoryState copyWith({
