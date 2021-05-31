@@ -1,10 +1,10 @@
 part of 'story_cubit.dart';
 
 class StoryState extends Equatable {
-  final List<StoryModel> stories;
+  final List<StoryModelNew> stories;
 
   /// value is -1 when no story is selected.
-  /// create story. insert an empty storyModel at index 0 and show that model.
+  /// create story. insert an empty StoryModelNew at index 0 and show that model.
   final String selectedStoryId;
   final CrudScreenStatus crudScreenStatus;
   final Failure failure;
@@ -24,16 +24,16 @@ class StoryState extends Equatable {
         failure: const Failure());
   }
 
-  StoryModel get selectedStory {
+  StoryModelNew get selectedStory {
     var selectedStory =
-        stories.firstWhere((story) => story.id == selectedStoryId);
+        stories.firstWhere((story) => story.uid == selectedStoryId);
     return selectedStory;
   }
 
   StoryState copyWith({
     //TODO: revisit and improvise this, remove the question marks to see the
     // error
-    List<StoryModel>? stories,
+    List<StoryModelNew>? stories,
     String? selectedStoryId,
     CrudScreenStatus? crudScreenStatus,
     Failure? failure,

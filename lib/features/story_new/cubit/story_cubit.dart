@@ -1,17 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_firebase_seed3/features/common_models/crud_screen_status.dart';
+import '../../common_models/crud_screen_status.dart';
+import '../model/story_model_new.dart';
 
 import '../../common_models/failure.dart';
-import '../model/story_model.dart';
 import '../repository/story_repository.dart';
 
 part 'story_state.dart';
 
 class StoryCubit extends Cubit<StoryState> {
-  StoryRepository _storyRepository;
+  StoryRepositoryNew _storyRepository;
 
-  StoryCubit({required StoryRepository storyRepository})
+  StoryCubit({required StoryRepositoryNew storyRepository})
       : _storyRepository = storyRepository,
         super(StoryState.initial()) {
     getAllStories();
@@ -19,11 +19,11 @@ class StoryCubit extends Cubit<StoryState> {
 
   //createEmptyStoryFor Story creation
   createEmptyStoryForStoryCreation() {
-    var newStory = StoryModel.newStory();
-    List<StoryModel> newStories = [newStory, ...state.stories];
+    var newStory = StoryModelNew.newStory();
+    List<StoryModelNew> newStories = [newStory, ...state.stories];
     emit(state.copyWith(
       stories: newStories,
-      selectedStoryId: newStory.id,
+      selectedStoryId: newStory.uid,
     ));
   }
 
@@ -38,7 +38,7 @@ class StoryCubit extends Cubit<StoryState> {
       emit(state.copyWith(
         crudScreenStatus: CrudScreenStatus.loaded,
         stories: updatedStories,
-        selectedStoryId: createdStoryFromDB.id,
+        selectedStoryId: createdStoryFromDB.uid,
       ));
       return true;
     } catch (e) {
@@ -82,7 +82,7 @@ class StoryCubit extends Cubit<StoryState> {
     try {
       await _storyRepository.deleteItem(id);
       var updatedList =
-          state.stories.where((element) => element.id != id).toList();
+          state.stories.where((element) => element.uid != id).toList();
       emit(state.copyWith(
           stories: updatedList, crudScreenStatus: CrudScreenStatus.loaded));
     } catch (e) {
@@ -119,23 +119,26 @@ class StoryCubit extends Cubit<StoryState> {
   //updateTitle
   void titleChanged({required String updatedTitle}) {
     var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
-            ? story.copyWith(title: updatedTitle)
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(storyTitle: updatedTitle)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));
   }
 
-//updateImageUrl
+  //updateImageUrl
   void imageUrlChanged({required String updatedImageUrl}) {
     var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
-            ? story.copyWith(imageUrl: updatedImageUrl)
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(storyImageUrl: updatedImageUrl)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));
   }
 
+
+
+  // ------->
   //updateVideoUrl
   void videoUrlChanged({required String updatedVideoUrl}) {
     var newStories = state.stories

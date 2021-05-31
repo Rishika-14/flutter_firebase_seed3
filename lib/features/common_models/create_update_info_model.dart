@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CreateUpdateInfoModel {
-  final DateTime timestamp;
+  final Timestamp timestamp;
   final String firebaseUid;
 
   const CreateUpdateInfoModel({

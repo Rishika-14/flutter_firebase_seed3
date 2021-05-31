@@ -11,6 +11,7 @@ enum StoryType {
 class StoryModelNew extends ActivityModel {
   final String storyTitle;
   final String storyFestival;
+  final String storyImageUrl;
   final String storyMarkdown;
   final String moral;
 
@@ -25,12 +26,14 @@ class StoryModelNew extends ActivityModel {
     required String? adminOnlyComments,
     required String storyTitle,
     required String storyFestival,
+    required String storyImageUrl,
     required String storyMarkdown,
     required String moral,
     required String youtubeVideoUrl,
     required StoryType storyType,
   })  : this.storyTitle = storyTitle,
         this.storyFestival = storyFestival,
+        this.storyImageUrl = storyImageUrl,
         this.storyMarkdown = storyMarkdown,
         this.moral = moral,
         this.youtubeVideoUrl = youtubeVideoUrl,
@@ -52,6 +55,7 @@ class StoryModelNew extends ActivityModel {
       adminOnlyComments: null,
       storyTitle: "",
       storyFestival: "",
+      storyImageUrl: "",
       storyMarkdown: "",
       moral: "",
       youtubeVideoUrl: "",
@@ -62,6 +66,7 @@ class StoryModelNew extends ActivityModel {
   StoryModelNew copyWith({
     String? storyTitle,
     String? storyFestival,
+    String? storyImageUrl,
     String? storyMarkdown,
     String? moral,
     String? youtubeVideoUrl,
@@ -76,6 +81,7 @@ class StoryModelNew extends ActivityModel {
     return StoryModelNew(
       storyTitle: storyTitle ?? this.storyTitle,
       storyFestival: storyFestival ?? this.storyFestival,
+      storyImageUrl: storyImageUrl ?? this.storyImageUrl,
       storyMarkdown: storyMarkdown ?? this.storyMarkdown,
       moral: moral ?? this.moral,
       youtubeVideoUrl: youtubeVideoUrl ?? this.youtubeVideoUrl,
@@ -88,32 +94,38 @@ class StoryModelNew extends ActivityModel {
     );
   }
 
-  factory StoryModelNew.fromFirebaseDocument(
-      QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot) {
-    final data = docSnapshot.data();
+  static StoryModelNew? fromFirebaseDocument(
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot) {
+    if(docSnapshot.exists) {
+      final data = docSnapshot.data();
 
-    return StoryModelNew(
-      uid: docSnapshot.id,
-      //TODO: convert DataType
-      createUpdateInfo: data['createUpdateInfo'],
-      //TODO: convert DataType
-      tags: data['tags'],
-      adminOnlyComments: data['comments'],
-      deleted: data['deleted'],
+      return StoryModelNew(
+        uid: docSnapshot.id,
+        //TODO: convert DataType
+        createUpdateInfo: data!['createUpdateInfo'],
+        //TODO: convert DataType
+        tags: data['tags'],
+        adminOnlyComments: data['comments'],
+        deleted: data['deleted'],
 
-      storyTitle: data['storyTitle'],
-      storyFestival: data['storyFestival'],
-      storyMarkdown: data['storyMarkdown'],
-      moral: data['moral'],
-      youtubeVideoUrl: data['youtubeVideoUrl'],
-      storyType: data['storyType'],
-    );
+        storyTitle: data['storyTitle'],
+        storyFestival: data['storyFestival'],
+        storyImageUrl: data['storyImageUrl'],
+        storyMarkdown: data['storyMarkdown'],
+        moral: data['moral'],
+        youtubeVideoUrl: data['youtubeVideoUrl'],
+        storyType: data['storyType'],
+      );
+    }
+
+    return null;
   }
 
   Map<String, dynamic> toJson() {
     var result = super.toJson();
     result['storyTitle'] = this.storyTitle;
     result['storyFestival'] = this.storyFestival;
+    result['storyImageUrl'] = this.storyImageUrl;
     result['storyMarkdown'] = this.storyMarkdown;
     result['moral'] = this.moral;
     result['youtubeVideoUrl'] = this.youtubeVideoUrl;
@@ -126,6 +138,7 @@ class StoryModelNew extends ActivityModel {
     ..addAll([
       storyTitle,
       storyFestival,
+      storyImageUrl,
       storyMarkdown,
       moral,
       youtubeVideoUrl,
@@ -139,7 +152,7 @@ class StoryModelNew extends ActivityModel {
       QuerySnapshot<Map<String, dynamic>> querySnapshot) {
     List<StoryModelNew> seminars = [];
     querySnapshot.docs.forEach((storySnapshot) {
-      seminars.add(StoryModelNew.fromFirebaseDocument(storySnapshot));
+      seminars.add(StoryModelNew.fromFirebaseDocument(storySnapshot)!);
     });
     return seminars;
   }
