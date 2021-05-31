@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_firebase_seed3/features/common_models/create_update_info_model.dart';
 
-class ActivityModel with EquatableMixin{
+class ActivityModel with EquatableMixin {
   final String uid;
   final List<CreateUpdateInfoModel> createUpdateInfo;
   final List<String>? tags;
@@ -28,5 +28,6 @@ class ActivityModel with EquatableMixin{
   }
 
   @override
-  List<Object?> get props => [uid, createUpdateInfo, tags, deleted, adminOnlyComments];
+  List<Object?> get props =>
+      [uid, createUpdateInfo, tags, deleted, adminOnlyComments];
 }
