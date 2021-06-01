@@ -6,11 +6,19 @@ import './story_view.dart';
 import '../../../widgets/image_pick_widget.dart';
 import '../cubit/story_cubit.dart';
 
-class CreateEditNewStory extends StatelessWidget {
+class CreateEditNewStory extends StatefulWidget {
   static const routeName = '/create-edit-story';
+
+  @override
+  _CreateEditNewStoryState createState() => _CreateEditNewStoryState();
+}
+
+class _CreateEditNewStoryState extends State<CreateEditNewStory> {
   var _formKey = GlobalKey<FormState>();
 
   String title = '';
+
+  StoryType _currentType = StoryType.markdown;
 
   @override
   Widget build(BuildContext context) {
@@ -51,56 +59,108 @@ class CreateEditNewStory extends StatelessWidget {
                             },
                           ),
                           SizedBox(height: 20),
-                          ImagePick(
-                            folderPath: 'story_images',
-                            imageUpdateHandler: (updatedImageUrl) {
-                              context.read<NewStoryCubit>().imageUrlChanged(
-                                  updatedImageUrl: updatedImageUrl);
-                            },
-                            selectedImage: state.selectedStory.storyImageUrl,
-                          ),
-                          SizedBox(height: 20),
                           TextFormField(
                             decoration: InputDecoration(
-                              labelText: 'Youtube Video Link',
+                              labelText: 'Festival',
                               border: OutlineInputBorder(),
                             ),
-                            initialValue: state.selectedStory.youtubeVideoUrl,
-                            onChanged: (updatedUrl) {
-                              context
-                                  .read<NewStoryCubit>()
-                                  .youtubeUrlChanged(youtubeUrl: updatedUrl);
+                            initialValue: state.selectedStory.storyFestival,
+                            validator: (value) {
+                              if (value!.isEmpty || value == '') {
+                                return 'Enter some value';
+                              }
+                            },
+                            onChanged: (updatedFestival) {
+                              context.read<NewStoryCubit>().festivalChanged(
+                                  updatedFestival: updatedFestival);
                             },
                           ),
                           SizedBox(height: 20),
-                          TextFormField(
-                            style: TextStyle(),
-                            maxLines: 15,
-                            decoration: InputDecoration(
-                              labelText: 'Markdown',
-                              border: OutlineInputBorder(),
-                            ),
-                            initialValue: state.selectedStory.storyMarkdown,
-                            onChanged: (updatedStoryMarkdown) {
-                              context
-                                  .read<NewStoryCubit>()
-                                  .storyMarkdownChanged(
-                                      markDownString: updatedStoryMarkdown);
-                            },
+                          Column(
+                            children: [
+                              RadioListTile<StoryType>(
+                                  value: StoryType.markdown,
+                                  title: Text('Markdown'),
+                                  groupValue: _currentType,
+                                  onChanged: (storyType) {
+                                    setState(() {
+                                      _currentType = storyType!;
+                                    });
+
+                                    context
+                                        .read<NewStoryCubit>()
+                                        .storyTypeChanged(
+                                            storyType: storyType!);
+                                  }),
+                              RadioListTile<StoryType>(
+                                  value: StoryType.youtubeVideo,
+                                  title: Text('Youtube'),
+                                  groupValue: _currentType,
+                                  onChanged: (storyType) {
+                                    setState(() {
+                                      _currentType = storyType!;
+                                    });
+                                    context
+                                        .read<NewStoryCubit>()
+                                        .storyTypeChanged(
+                                            storyType: storyType!);
+                                  }),
+                            ],
                           ),
+                          if (_currentType == StoryType.youtubeVideo)
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Youtube Video Link',
+                                border: OutlineInputBorder(),
+                              ),
+                              initialValue: state.selectedStory.youtubeVideoUrl,
+                              onChanged: (updatedUrl) {
+                                context
+                                    .read<NewStoryCubit>()
+                                    .youtubeUrlChanged(youtubeUrl: updatedUrl);
+                              },
+                            ),
                           SizedBox(height: 20),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              labelText: 'Moral',
-                              border: OutlineInputBorder(),
+                          if (_currentType == StoryType.markdown)
+                            ImagePick(
+                              folderPath: 'story_images',
+                              imageUpdateHandler: (updatedImageUrl) {
+                                context.read<NewStoryCubit>().imageUrlChanged(
+                                    updatedImageUrl: updatedImageUrl);
+                              },
+                              selectedImage: state.selectedStory.storyImageUrl,
                             ),
-                            initialValue: state.selectedStory.moral,
-                            onChanged: (updatedMoral) {
-                              context
-                                  .read<NewStoryCubit>()
-                                  .moralChanged(moralString: updatedMoral);
-                            },
-                          ),
+                          SizedBox(height: 20),
+                          if (_currentType == StoryType.markdown)
+                            TextFormField(
+                              style: TextStyle(),
+                              maxLines: 15,
+                              decoration: InputDecoration(
+                                labelText: 'Markdown',
+                                border: OutlineInputBorder(),
+                              ),
+                              initialValue: state.selectedStory.storyMarkdown,
+                              onChanged: (updatedStoryMarkdown) {
+                                context
+                                    .read<NewStoryCubit>()
+                                    .storyMarkdownChanged(
+                                        markDownString: updatedStoryMarkdown);
+                              },
+                            ),
+                          SizedBox(height: 20),
+                          if (_currentType == StoryType.markdown)
+                            TextFormField(
+                              decoration: InputDecoration(
+                                labelText: 'Moral',
+                                border: OutlineInputBorder(),
+                              ),
+                              initialValue: state.selectedStory.moral,
+                              onChanged: (updatedMoral) {
+                                context
+                                    .read<NewStoryCubit>()
+                                    .moralChanged(moralString: updatedMoral);
+                              },
+                            ),
                           SizedBox(height: 20),
                           ElevatedButton(
                               onPressed: () async {

@@ -9,7 +9,7 @@ enum StoryType {
   // pdf
 }
 
-class StoryModelNew extends ActivityModel {
+class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
   final String storyTitle; //both in markdown and video view
   final String storyFestival; //both in markdown and video view
   final String storyImageUrl; //markdown view
@@ -163,17 +163,16 @@ class StoryModelNew extends ActivityModel {
     return seminars;
   }
 
-  //  @override
-  // int compareTo(StoryModelNew other) {
-  //   if(createUpdateInfo.last.timestamp != null && other.createUpdateInfo.last.timestamp != null) {
-  //     return other.lastUpdated!.compareTo(this.lastUpdated!);
-  //   }
-  //   else if(this.lastUpdated != null || other.lastUpdated == null) {
-  //     return -1;
-  //   }
-  //   else if(this.lastUpdated == null || other.lastUpdated != null) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // }
+  @override
+  int compareTo(StoryModelNew other) {
+    return other.createUpdateInfo.last.timestamp
+        .compareTo(this.createUpdateInfo.last.timestamp);
+    // else if(this.lastUpdated != null || other.lastUpdated == null) {
+    //   return -1;
+    // }
+    // else if(this.lastUpdated == null || other.lastUpdated != null) {
+    //   return 1;
+    // }
+    // return 0;
+  }
 }

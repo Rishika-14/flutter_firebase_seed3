@@ -101,7 +101,7 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     try {
       var allStories = await _storyRepository.getAllItems();
       //sort by timestamp
-      //allStories.sort();
+      allStories.sort();
       print('All Stories $allStories');
       emit(state.copyWith(
           stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
@@ -121,6 +121,24 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     var newStories = state.stories
         .map((story) => story.uid == state.selectedStoryId
             ? story.copyWith(storyTitle: updatedTitle)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void festivalChanged({required String updatedFestival}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(storyTitle: updatedFestival)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void storyTypeChanged({required StoryType storyType}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(storyType: storyType)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));

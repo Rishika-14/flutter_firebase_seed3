@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_seed3/features/story_new/model/story_model_new.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 import './create_edit_story.dart';
@@ -27,11 +28,13 @@ class _StoryViewState extends State<NewStoryView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (state.selectedStory.moral != null &&
-                    state.selectedStory.moral != "")
-                  Text("Moral: ${state.selectedStory.moral}"),
-                if (state.selectedStory.storyImageUrl != null &&
-                    state.selectedStory.storyImageUrl != "")
+                Text(
+                  state.selectedStory.storyFestival,
+                  style: TextStyle(fontSize: 50),
+                ),
+                if (state.selectedStory.storyType == StoryType.youtubeVideo)
+                  YoutubeWidget(state.selectedStory.youtubeVideoUrl),
+                if (state.selectedStory.storyType == StoryType.markdown)
                   Container(
                     height: 100,
                     width: 100,
@@ -39,13 +42,13 @@ class _StoryViewState extends State<NewStoryView> {
                       state.selectedStory.storyImageUrl,
                     ),
                   ),
-                if (state.selectedStory.youtubeVideoUrl != null &&
-                    state.selectedStory.youtubeVideoUrl != "")
-                  YoutubeWidget(state.selectedStory.youtubeVideoUrl),
-                Container(
-                  height: 300,
-                  child: Markdown(data: state.selectedStory.storyMarkdown),
-                )
+                if (state.selectedStory.storyType == StoryType.markdown)
+                  Container(
+                    height: 300,
+                    child: Markdown(data: state.selectedStory.storyMarkdown),
+                  ),
+                if (state.selectedStory.storyType == StoryType.markdown)
+                  Text("Moral: ${state.selectedStory.moral}"),
               ],
             ),
           ),
