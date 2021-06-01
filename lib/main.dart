@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/features/authentication/login/login_cubit.dart';
 import 'package:flutter_firebase_seed3/features/authentication/view/login_screen.dart';
 import 'package:flutter_firebase_seed3/features/authentication/view/splash_screen.dart';
+import 'package:flutter_firebase_seed3/features/nav/views/nav_screen.dart';
 
 import './features/story/cubit/story_cubit.dart';
 import './features/story/repository/story_repository.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
           ),
           initialRoute: SplashScreen.routeName,
           routes: {
+            NavScreen.routeName: (context) => NavScreen(),
             NewStoryList.routeName: (context) => NewStoryList(),
             LoginScreen.routeName: (context) => LoginScreen(),
             CreateEditNewStory.routeName: (context) => CreateEditNewStory(),
