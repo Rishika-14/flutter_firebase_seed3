@@ -101,7 +101,7 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     try {
       var allStories = await _storyRepository.getAllItems();
       //sort by timestamp
-      allStories.sort();
+      //allStories.sort();
       print('All Stories $allStories');
       emit(state.copyWith(
           stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
