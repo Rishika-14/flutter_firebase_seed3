@@ -7,7 +7,9 @@
         {
             "name": "flutter_firebase_seed3",
             "request": "launch",
-            "type": "dart"
-        }
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": ["-d", "chrome","--web-port", "5000"],
+        }      
     ]
 }

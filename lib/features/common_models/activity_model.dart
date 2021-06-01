@@ -4,7 +4,7 @@ import 'package:flutter_firebase_seed3/features/common_models/create_update_info
 class ActivityModel with EquatableMixin {
   final String uid;
   final List<CreateUpdateInfoModel> createUpdateInfo;
-  final List<String>? tags;
+  // final List<String>? tags;
   final bool deleted;
 
   //admin only screens
@@ -13,15 +13,26 @@ class ActivityModel with EquatableMixin {
   ActivityModel({
     required this.uid,
     required this.createUpdateInfo,
-    this.tags,
+    //  this.tags,
     this.adminOnlyComments,
     required this.deleted,
   });
 
+  factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
+        uid: json["uid"],
+        createUpdateInfo: List<CreateUpdateInfoModel>.from(
+          json["createUpdateInfo"].map(
+            (e) => CreateUpdateInfoModel.fromJson(e),
+          ),
+        ),
+        deleted: json["deleted"],
+      );
+
   Map<String, dynamic> toJson() {
     return {
-      'createUpdateInfo': this.createUpdateInfo,
-      'tags': this.tags,
+      'createUpdateInfo':
+          List<dynamic>.from(createUpdateInfo.map((e) => e.toJson())),
+      //    'tags': this.tags,
       'deleted': this.deleted,
       'comments': this.adminOnlyComments,
     };
@@ -29,5 +40,5 @@ class ActivityModel with EquatableMixin {
 
   @override
   List<Object?> get props =>
-      [uid, createUpdateInfo, tags, deleted, adminOnlyComments];
+      [uid, createUpdateInfo, deleted, adminOnlyComments];
 }

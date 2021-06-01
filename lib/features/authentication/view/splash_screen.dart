@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/features/authentication/auth/auth_bloc.dart';
 import 'package:flutter_firebase_seed3/features/authentication/view/login_screen.dart';
-import 'package:flutter_firebase_seed3/features/story/view/story_list.dart';
+import 'package:flutter_firebase_seed3/features/story_new/view/story_list.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = '/splash';
@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
               state.status == AuthStatus.unknown) {
             Navigator.of(context).pushNamed(LoginScreen.routeName);
           } else if (state.status == AuthStatus.authenticated) {
-            Navigator.of(context).pushNamed(StoryList.routeName);
+            Navigator.of(context).pushNamed(NewStoryList.routeName);
             // } else if (state.status == AuthStatus.unknown) {
             //   print('Error Occured while auth');
           }

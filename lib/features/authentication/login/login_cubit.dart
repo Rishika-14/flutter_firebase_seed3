@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_firebase_seed3/features/authentication/repository/auth_repository.dart';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 part './login_state.dart';

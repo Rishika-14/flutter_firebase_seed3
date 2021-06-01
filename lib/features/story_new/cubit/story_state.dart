@@ -1,6 +1,6 @@
 part of 'story_cubit.dart';
 
-class StoryState extends Equatable {
+class NewStoryState extends Equatable {
   final List<StoryModelNew> stories;
 
   /// value is -1 when no story is selected.
@@ -9,15 +9,15 @@ class StoryState extends Equatable {
   final CrudScreenStatus crudScreenStatus;
   final Failure failure;
 
-  StoryState({
+  NewStoryState({
     required this.stories,
     required this.selectedStoryId,
     required this.crudScreenStatus,
     required this.failure,
   });
 
-  factory StoryState.initial() {
-    return StoryState(
+  factory NewStoryState.initial() {
+    return NewStoryState(
         stories: [],
         selectedStoryId: "",
         crudScreenStatus: CrudScreenStatus.initial,
@@ -30,7 +30,7 @@ class StoryState extends Equatable {
     return selectedStory;
   }
 
-  StoryState copyWith({
+  NewStoryState copyWith({
     //TODO: revisit and improvise this, remove the question marks to see the
     // error
     List<StoryModelNew>? stories,
@@ -38,7 +38,7 @@ class StoryState extends Equatable {
     CrudScreenStatus? crudScreenStatus,
     Failure? failure,
   }) {
-    return new StoryState(
+    return new NewStoryState(
       stories: stories ?? this.stories,
       selectedStoryId: selectedStoryId ?? this.selectedStoryId,
       crudScreenStatus: crudScreenStatus ?? this.crudScreenStatus,
@@ -47,7 +47,8 @@ class StoryState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [stories, selectedStoryId, crudScreenStatus, failure];
+  List<Object?> get props =>
+      [stories, selectedStoryId, crudScreenStatus, failure];
 
   @override
   bool? get stringify => true;

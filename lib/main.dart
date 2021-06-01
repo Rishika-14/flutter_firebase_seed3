@@ -13,6 +13,11 @@ import './features/story/view/story_view.dart';
 import 'bloc/simple_bloc_observer.dart';
 import 'features/authentication/auth/auth_bloc.dart';
 import 'features/authentication/repository/auth_repository.dart';
+import 'features/story_new/cubit/story_cubit.dart';
+import 'features/story_new/repository/story_repository.dart';
+import 'features/story_new/view/create_edit_story.dart';
+import 'features/story_new/view/story_list.dart';
+import 'features/story_new/view/story_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,8 +35,8 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<AuthRepository>(
           create: (_) => AuthRepository(),
         ),
-        RepositoryProvider<StoryRepository>(
-            create: (context) => StoryRepository())
+        RepositoryProvider<StoryRepositoryNew>(
+            create: (context) => StoryRepositoryNew())
       ],
       child: MultiBlocProvider(
         providers: [
@@ -41,9 +46,9 @@ class MyApp extends StatelessWidget {
           BlocProvider(
               create: (context) =>
                   LoginCubit(authRepository: context.read<AuthRepository>())),
-          BlocProvider<StoryCubit>(
-              create: (context) =>
-                  StoryCubit(storyRepository: context.read<StoryRepository>())),
+          BlocProvider<NewStoryCubit>(
+              create: (context) => NewStoryCubit(
+                  storyRepository: context.read<StoryRepositoryNew>())),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -52,10 +57,10 @@ class MyApp extends StatelessWidget {
           ),
           initialRoute: SplashScreen.routeName,
           routes: {
-            StoryList.routeName: (context) => StoryList(),
+            NewStoryList.routeName: (context) => NewStoryList(),
             LoginScreen.routeName: (context) => LoginScreen(),
-            CreateEditStory.routeName: (context) => CreateEditStory(),
-            StoryView.routeName: (context) => StoryView(),
+            CreateEditNewStory.routeName: (context) => CreateEditNewStory(),
+            NewStoryView.routeName: (context) => NewStoryView(),
             SplashScreen.routeName: (context) => SplashScreen(),
           },
         ),
