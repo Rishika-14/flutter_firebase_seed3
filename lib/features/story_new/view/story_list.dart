@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/features/authentication/login/login_cubit.dart';
 import 'package:flutter_firebase_seed3/features/common_models/crud_screen_status.dart';
 import 'package:flutter_firebase_seed3/features/story_new/model/story_model_new.dart';
 
@@ -27,18 +26,6 @@ class NewStoryList extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text('Stories (${state.stories.length})'),
-            actions: [
-              TextButton(
-                  style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.white)),
-                  onPressed: () {
-                    context.read<LoginCubit>().logout();
-                  },
-                  child: Text(
-                    'Sign Out',
-                    style: TextStyle(color: Colors.white),
-                  ))
-            ],
           ),
           body: ListView.builder(
               itemCount: state.stories.length,

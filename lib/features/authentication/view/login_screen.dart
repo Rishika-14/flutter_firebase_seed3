@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/features/authentication/login/login_cubit.dart';
+import '../cubit/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = '/login';

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flutter_firebase_seed3/features/authentication/repository/auth_repository.dart';
 part 'auth_event.dart';
@@ -38,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Stream<AuthState> _mapAuthUserChangedToState(AuthUserChanged event) async* {
     yield event.user != null
-        ? AuthState.authenticated(user: event.user)
+        ? AuthState.authenticated(user: event.user!)
         : AuthState.unauthenticated();
   }
 }

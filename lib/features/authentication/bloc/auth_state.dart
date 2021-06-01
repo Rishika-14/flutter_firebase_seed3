@@ -12,10 +12,10 @@ class AuthState {
 
   factory AuthState.unknown() => AuthState();
 
-  factory AuthState.authenticated({required auth.User? user}) {
+  factory AuthState.authenticated({required auth.User user}) {
     return AuthState(user: user, status: AuthStatus.authenticated);
   }
 
   factory AuthState.unauthenticated() =>
-      AuthState(status: AuthStatus.unauthenticated);
+      AuthState(user: null, status: AuthStatus.unauthenticated);
 }

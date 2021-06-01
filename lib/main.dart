@@ -1,18 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_firebase_seed3/features/authentication/login/login_cubit.dart';
-import 'package:flutter_firebase_seed3/features/authentication/view/login_screen.dart';
-import 'package:flutter_firebase_seed3/features/authentication/view/splash_screen.dart';
-import 'package:flutter_firebase_seed3/features/nav/views/nav_screen.dart';
+import './features/authentication/cubit/login_cubit.dart';
+import './features/authentication/view/login_screen.dart';
+import './features/authentication/view/splash_screen.dart';
+import './features/nav/views/nav_screen.dart';
 
-import './features/story/cubit/story_cubit.dart';
-import './features/story/repository/story_repository.dart';
-import './features/story/view/create_edit_story.dart';
-import './features/story/view/story_list.dart';
-import './features/story/view/story_view.dart';
 import 'bloc/simple_bloc_observer.dart';
-import 'features/authentication/auth/auth_bloc.dart';
+import 'features/authentication/bloc/auth_bloc.dart';
 import 'features/authentication/repository/auth_repository.dart';
 import 'features/story_new/cubit/story_cubit.dart';
 import 'features/story_new/repository/story_repository.dart';
