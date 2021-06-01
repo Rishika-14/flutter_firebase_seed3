@@ -10,13 +10,13 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
 
   late FirebaseFirestore _firebaseFirestore;
 
-  StoryRepository() {
+  StoryRepositoryNew() {
     _firebaseFirestore = FirebaseFirestore.instance;
   }
 
   @override
   Future<StoryModelNew> createItem(StoryModelNew item) async {
-    item.copyWith(
+    var itemWithUpdateInfo = item.copyWith(
       createUpdateInfo: [
         ...item.createUpdateInfo,
         CreateUpdateInfoModel(
@@ -25,7 +25,7 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
         )
       ],
     );
-    var json = item.toJson();
+    var json = itemWithUpdateInfo.toJson();
     var ref = await _firebaseFirestore.collection(dbCollectionPath).add(json);
     var createdStory = await getItemWithId(ref.id);
 
@@ -34,7 +34,7 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
 
   @override
   Future<StoryModelNew> updateItem(StoryModelNew item) async {
-    item.copyWith(
+    var itemWithUpdatedInfo = item.copyWith(
       createUpdateInfo: [
         ...item.createUpdateInfo,
         CreateUpdateInfoModel(
@@ -43,8 +43,8 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
         )
       ],
     );
-    var json = item.toJson();
-    var ref = await _firebaseFirestore
+    var json = itemWithUpdatedInfo.toJson();
+    await _firebaseFirestore
         .collection(dbCollectionPath)
         .doc(item.uid)
         .update(json);

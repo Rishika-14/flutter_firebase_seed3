@@ -11,7 +11,7 @@ class SeminarModel extends ActivityModel {
     required String title,
     required String uid,
     required List<CreateUpdateInfoModel> createUpdateInfo,
-    List<String>? tags,
+    //  List<String>? tags,
     required bool deleted,
     String? adminOnlyComments,
   })  : this.videoUrl = videoUrl,
@@ -19,7 +19,7 @@ class SeminarModel extends ActivityModel {
         super(
             uid: uid,
             createUpdateInfo: createUpdateInfo,
-            tags: tags,
+            //  tags: tags,
             deleted: deleted,
             adminOnlyComments: adminOnlyComments);
 
@@ -29,7 +29,7 @@ class SeminarModel extends ActivityModel {
       title: "",
       uid: "new",
       createUpdateInfo: [],
-      tags: null,
+      //  tags: null,
       deleted: false,
       adminOnlyComments: "",
     );
@@ -40,7 +40,7 @@ class SeminarModel extends ActivityModel {
     String? title,
     String? uid,
     List<CreateUpdateInfoModel>? createUpdateInfo,
-    List<String>? tags,
+    // List<String>? tags,
     bool? deleted,
     String? adminOnlyComments,
   }) {
@@ -49,7 +49,7 @@ class SeminarModel extends ActivityModel {
       title: title ?? this.title,
       uid: uid ?? this.uid,
       createUpdateInfo: createUpdateInfo ?? this.createUpdateInfo,
-      tags: tags ?? this.tags,
+      //   tags: tags ?? this.tags,
       deleted: deleted ?? this.deleted,
       adminOnlyComments: adminOnlyComments ?? this.adminOnlyComments,
     );
@@ -65,7 +65,7 @@ class SeminarModel extends ActivityModel {
       //TODO: convert DataType
       createUpdateInfo: data['createUpdateInfo'],
       //TODO: convert DataType
-      tags: data['tags'],
+      //  tags: data['tags'],
       adminOnlyComments: data['comments'],
       deleted: data['deleted'],
     );

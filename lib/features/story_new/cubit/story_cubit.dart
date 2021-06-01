@@ -8,12 +8,12 @@ import '../repository/story_repository.dart';
 
 part 'story_state.dart';
 
-class StoryCubit extends Cubit<StoryState> {
+class NewStoryCubit extends Cubit<NewStoryState> {
   StoryRepositoryNew _storyRepository;
 
-  StoryCubit({required StoryRepositoryNew storyRepository})
+  NewStoryCubit({required StoryRepositoryNew storyRepository})
       : _storyRepository = storyRepository,
-        super(StoryState.initial()) {
+        super(NewStoryState.initial()) {
     getAllStories();
   }
 
@@ -136,23 +136,22 @@ class StoryCubit extends Cubit<StoryState> {
     emit(state.copyWith(stories: newStories));
   }
 
-
-
   // ------->
   //updateVideoUrl
-  void videoUrlChanged({required String updatedVideoUrl}) {
-    var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
-            ? story.copyWith(videoUrl: updatedVideoUrl)
-            : story)
-        .toList();
-    emit(state.copyWith(stories: newStories));
-  }
+//todo delete un-used section
+  // void videoUrlChanged({required String updatedVideoUrl}) {
+  //   var newStories = state.stories
+  //       .map((story) => story.uid == state.selectedStoryId
+  //           ? story.copyWith(videoUrl: updatedVideoUrl)
+  //           : story)
+  //       .toList();
+  //   emit(state.copyWith(stories: newStories));
+  // }
 
 //updateStoryMarkdown
   void storyMarkdownChanged({required String markDownString}) {
     var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
+        .map((story) => story.uid == state.selectedStoryId
             ? story.copyWith(storyMarkdown: markDownString)
             : story)
         .toList();
@@ -163,7 +162,7 @@ class StoryCubit extends Cubit<StoryState> {
 
   void moralChanged({required String moralString}) async {
     var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
+        .map((story) => story.uid == state.selectedStoryId
             ? story.copyWith(moral: moralString)
             : story)
         .toList();
@@ -172,8 +171,8 @@ class StoryCubit extends Cubit<StoryState> {
 
   void youtubeUrlChanged({required String youtubeUrl}) async {
     var newStories = state.stories
-        .map((story) => story.id == state.selectedStoryId
-            ? story.copyWith(youtubeUrl: youtubeUrl)
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(youtubeVideoUrl: youtubeUrl)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));

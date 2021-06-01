@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter_firebase_seed3/features/common_models/activity_model.dart';
 import 'package:flutter_firebase_seed3/features/common_models/create_update_info_model.dart';
 
@@ -9,19 +10,19 @@ enum StoryType {
 }
 
 class StoryModelNew extends ActivityModel {
-  final String storyTitle;
-  final String storyFestival;
-  final String storyImageUrl;
-  final String storyMarkdown;
-  final String moral;
+  final String storyTitle; //both in markdown and video view
+  final String storyFestival; //both in markdown and video view
+  final String storyImageUrl; //markdown view
+  final String storyMarkdown; //markdown view
+  final String moral; // markdown view
 
-  final String youtubeVideoUrl;
-  final StoryType storyType;
+  final String youtubeVideoUrl; //video view
+  final StoryType storyType; //only in create/update screens
 
   StoryModelNew({
     required String uid,
     required List<CreateUpdateInfoModel> createUpdateInfo,
-    required List<String>? tags,
+    //  required List<String>? tags,
     required bool deleted,
     required String? adminOnlyComments,
     required String storyTitle,
@@ -41,7 +42,7 @@ class StoryModelNew extends ActivityModel {
         super(
           uid: uid,
           createUpdateInfo: createUpdateInfo,
-          tags: tags,
+          //      tags: tags,
           deleted: deleted,
           adminOnlyComments: adminOnlyComments,
         );
@@ -50,7 +51,7 @@ class StoryModelNew extends ActivityModel {
     return StoryModelNew(
       uid: "new",
       createUpdateInfo: [],
-      tags: [],
+      //   tags: [],
       deleted: false,
       adminOnlyComments: null,
       storyTitle: "",
@@ -88,7 +89,7 @@ class StoryModelNew extends ActivityModel {
       storyType: storyType ?? this.storyType,
       uid: uid ?? this.uid,
       createUpdateInfo: createUpdateInfo ?? this.createUpdateInfo,
-      tags: tags ?? this.tags,
+      //    tags: tags ?? this.tags,
       deleted: deleted ?? this.deleted,
       adminOnlyComments: adminOnlyComments ?? this.adminOnlyComments,
     );
@@ -96,15 +97,18 @@ class StoryModelNew extends ActivityModel {
 
   static StoryModelNew? fromFirebaseDocument(
       DocumentSnapshot<Map<String, dynamic>> docSnapshot) {
-    if(docSnapshot.exists) {
+    if (docSnapshot.exists) {
       final data = docSnapshot.data();
-
       return StoryModelNew(
         uid: docSnapshot.id,
         //TODO: convert DataType
-        createUpdateInfo: data!['createUpdateInfo'],
+        createUpdateInfo: List<CreateUpdateInfoModel>.from(
+          data!["createUpdateInfo"].map(
+            (e) => CreateUpdateInfoModel.fromJson(e),
+          ),
+        ),
         //TODO: convert DataType
-        tags: data['tags'],
+        //     tags: data['tags'],
         adminOnlyComments: data['comments'],
         deleted: data['deleted'],
 
@@ -114,7 +118,8 @@ class StoryModelNew extends ActivityModel {
         storyMarkdown: data['storyMarkdown'],
         moral: data['moral'],
         youtubeVideoUrl: data['youtubeVideoUrl'],
-        storyType: data['storyType'],
+        storyType:
+            EnumToString.fromString(StoryType.values, data['storyType'])!,
       );
     }
 
@@ -129,7 +134,8 @@ class StoryModelNew extends ActivityModel {
     result['storyMarkdown'] = this.storyMarkdown;
     result['moral'] = this.moral;
     result['youtubeVideoUrl'] = this.youtubeVideoUrl;
-    result['storyType'] = this.storyType;
+    result['storyType'] = EnumToString.convertToString(this.storyType);
+    //New Added
     return result;
   }
 
@@ -156,4 +162,18 @@ class StoryModelNew extends ActivityModel {
     });
     return seminars;
   }
+
+  //  @override
+  // int compareTo(StoryModelNew other) {
+  //   if(createUpdateInfo.last.timestamp != null && other.createUpdateInfo.last.timestamp != null) {
+  //     return other.lastUpdated!.compareTo(this.lastUpdated!);
+  //   }
+  //   else if(this.lastUpdated != null || other.lastUpdated == null) {
+  //     return -1;
+  //   }
+  //   else if(this.lastUpdated == null || other.lastUpdated != null) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
 }
