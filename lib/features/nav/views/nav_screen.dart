@@ -13,7 +13,7 @@ class NavScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('Pregveda Admin Screens'),
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
         ),
         body: ListView(
           children: [

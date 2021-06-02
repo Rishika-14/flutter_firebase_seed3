@@ -24,42 +24,46 @@ class _StoryViewState extends State<NewStoryView> {
           appBar: AppBar(
             title: Text(state.selectedStory.storyTitle),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (state.selectedStory.storyFestival.isNotEmpty)
-                  Text(
-                    state.selectedStory.storyFestival,
-                    style: TextStyle(fontSize: 50),
-                  ),
-                if (state.selectedStory.storyType == StoryType.youtubeVideo &&
-                    state.selectedStory.youtubeVideoUrl.isNotEmpty)
-                  Container(
-                    height: 300,
-                    width: 500,
-                    child: YoutubeWidget(
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (state.selectedStory.storyFestival.isNotEmpty)
+                    Text(
+                      state.selectedStory.storyFestival,
+                      style: TextStyle(fontSize: 50),
+                    ),
+                  if (state.selectedStory.storyType == StoryType.youtubeVideo &&
+                      state.selectedStory.youtubeVideoUrl.isNotEmpty)
+                    // Container(
+                    //   height: 300,
+                    //   width: 500,
+                    //
+                    // ),
+                    YoutubeWidget(
                       state.selectedStory.youtubeVideoUrl,
                     ),
-                  ),
-                if (state.selectedStory.storyType == StoryType.markdown &&
-                    state.selectedStory.storyImageUrl.isNotEmpty)
-                  Container(
-                    height: 100,
-                    width: 100,
-                    child: Image.network(
-                      state.selectedStory.storyImageUrl,
+                  if (state.selectedStory.storyType == StoryType.markdown &&
+                      state.selectedStory.storyImageUrl.isNotEmpty)
+                    Container(
+                      height: 100,
+                      width: 100,
+                      child: Image.network(
+                        state.selectedStory.storyImageUrl,
+                      ),
                     ),
-                  ),
-                if (state.selectedStory.storyType == StoryType.markdown)
-                  Container(
-                    height: 300,
-                    child: Markdown(data: state.selectedStory.storyMarkdown),
-                  ),
-                if (state.selectedStory.storyType == StoryType.markdown &&
-                    state.selectedStory.moral.isNotEmpty)
-                  Text("Moral: ${state.selectedStory.moral}"),
-              ],
+                  if (state.selectedStory.storyType == StoryType.markdown)
+                    Container(
+                      height: 300,
+                      child: Markdown(data: state.selectedStory.storyMarkdown),
+                    ),
+                  if (state.selectedStory.storyType == StoryType.markdown &&
+                      state.selectedStory.moral.isNotEmpty)
+                    Text("Moral: ${state.selectedStory.moral}"),
+                ],
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton(

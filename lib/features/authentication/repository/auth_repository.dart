@@ -7,16 +7,18 @@ import 'base_auth_repository.dart';
 
 class AuthRepository extends BaseAuthRepository {
   late final auth.FirebaseAuth _firebaseAuth;
+  late final GoogleSignIn _googleSignIn;
 
   AuthRepository() {
     _firebaseAuth = auth.FirebaseAuth.instance;
+    _googleSignIn = GoogleSignIn();
   }
 
   @override
   Future<auth.User?> googleSignIn() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
-          await GoogleSignIn().signIn();
+          await _googleSignIn.signIn();
 
       if (googleSignInAccount == null) {
         return null;
@@ -24,7 +26,7 @@ class AuthRepository extends BaseAuthRepository {
 
       // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
-          await googleSignInAccount!.authentication;
+          await googleSignInAccount.authentication;
 
       // Create a new credential
       final credential = auth.GoogleAuthProvider.credential(
@@ -49,22 +51,15 @@ class AuthRepository extends BaseAuthRepository {
       print(err.details);
       print('err.stacktrace ------>');
       print(err.stacktrace);
+      //TODO: change to Error Object
       throw 'platform-exception';
     }
   }
 
   @override
   Future<void> logout() async {
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-
-    try {
-      if (!kIsWeb) {
-        await googleSignIn.signOut();
-      }
-      await _firebaseAuth.signOut();
-    } catch (e) {
-      print('Error Sign Out');
-    }
+    await _googleSignIn.disconnect();
+    _firebaseAuth.signOut();
   }
 
   @override
