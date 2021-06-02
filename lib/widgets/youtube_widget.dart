@@ -4,7 +4,9 @@ import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class YoutubeWidget extends StatefulWidget {
   String videoURL;
+
   YoutubeWidget(this.videoURL);
+
   @override
   _YoutubeWidgetState createState() => _YoutubeWidgetState();
 }
@@ -57,10 +59,10 @@ class _YoutubeWidgetState extends State<YoutubeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      return YoutubePlayerIFrame(
+    return Container(
+      child: YoutubePlayerIFrame(
         controller: _controller,
-      );
-    });
+      ),
+    );
   }
 }
