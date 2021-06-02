@@ -28,13 +28,22 @@ class _StoryViewState extends State<NewStoryView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  state.selectedStory.storyFestival,
-                  style: TextStyle(fontSize: 50),
-                ),
-                if (state.selectedStory.storyType == StoryType.youtubeVideo)
-                  YoutubeWidget(state.selectedStory.youtubeVideoUrl),
-                if (state.selectedStory.storyType == StoryType.markdown)
+                if(state.selectedStory.storyFestival.isNotEmpty)
+                  Text(
+                    state.selectedStory.storyFestival,
+                    style: TextStyle(fontSize: 50),
+                  ),
+                if (state.selectedStory.storyType == StoryType.youtubeVideo  &&
+                    state.selectedStory.youtubeVideoUrl.isNotEmpty)
+                  Container(
+                    height: 300,
+                    width: 500,
+                    child: YoutubeWidget(
+                      state.selectedStory.youtubeVideoUrl,
+                    ),
+                  ),
+                if (state.selectedStory.storyType == StoryType.markdown  &&
+                    state.selectedStory.storyImageUrl.isNotEmpty)
                   Container(
                     height: 100,
                     width: 100,
@@ -47,7 +56,8 @@ class _StoryViewState extends State<NewStoryView> {
                     height: 300,
                     child: Markdown(data: state.selectedStory.storyMarkdown),
                   ),
-                if (state.selectedStory.storyType == StoryType.markdown)
+                if (state.selectedStory.storyType == StoryType.markdown &&
+                    state.selectedStory.moral.isNotEmpty)
                   Text("Moral: ${state.selectedStory.moral}"),
               ],
             ),
