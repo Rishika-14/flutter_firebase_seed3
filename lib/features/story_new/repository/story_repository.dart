@@ -19,10 +19,10 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
     var itemWithUpdateInfo = item.copyWith(
       createUpdateInfo: [
         ...item.createUpdateInfo,
-        CreateUpdateInfoModel(
-          timestamp: Timestamp.now(),
-          firebaseUid: FirebaseAuth.instance.currentUser!.uid,
-        )
+        // CreateUpdateInfoModel(
+        //   timestamp: Timestamp.now(),
+        //   firebaseUid: FirebaseAuth.instance.currentUser!.uid,
+        // )
       ],
     );
     var json = itemWithUpdateInfo.toJson();

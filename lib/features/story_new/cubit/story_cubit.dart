@@ -101,7 +101,8 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     try {
       var allStories = await _storyRepository.getAllItems();
       //sort by timestamp
-      allStories.sort();
+      //TODO: re enable sorting after implementing Auth hotreload
+      //allStories.sort();
       print('All Stories $allStories');
       emit(state.copyWith(
           stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
