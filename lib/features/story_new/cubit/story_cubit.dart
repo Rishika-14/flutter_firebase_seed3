@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../common_models/crud_screen_status.dart';
-import '../model/story_model_new.dart';
 
+import '../../common_models/crud_screen_status.dart';
 import '../../common_models/failure.dart';
+import '../model/story_model_new.dart';
 import '../repository/story_repository.dart';
 
 part 'story_state.dart';

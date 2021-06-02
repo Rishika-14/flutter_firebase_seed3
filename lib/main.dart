@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import './features/authentication/cubit/login_cubit.dart';
 import './features/authentication/view/login_screen.dart';
 import './features/authentication/view/splash_screen.dart';
 import './features/nav/views/nav_screen.dart';
-
 import 'bloc/simple_bloc_observer.dart';
 import 'features/authentication/bloc/auth_bloc.dart';
 import 'features/authentication/repository/auth_repository.dart';

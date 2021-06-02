@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/auth_bloc.dart';
 import 'package:flutter_firebase_seed3/features/authentication/view/login_screen.dart';
 import 'package:flutter_firebase_seed3/features/nav/views/nav_screen.dart';
-import 'package:flutter_firebase_seed3/features/story_new/view/story_list.dart';
+
+import '../bloc/auth_bloc.dart';
 
 class SplashScreen extends StatelessWidget {
   static const routeName = '/splash';
