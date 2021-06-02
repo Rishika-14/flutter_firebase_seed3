@@ -51,7 +51,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          initialRoute: SplashScreen.routeName,
+          //caution: do not checkin
+          initialRoute: NavScreen.routeName,
+          // initialRoute: SplashScreen.routeName,
           routes: {
             NavScreen.routeName: (context) => NavScreen(),
             NewStoryList.routeName: (context) => NewStoryList(),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/features/story_new/model/story_model_new.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import './story_view.dart';
 import '../../../widgets/image_pick_widget.dart';
@@ -57,6 +58,7 @@ class _CreateEditNewStoryState extends State<CreateEditNewStory> {
                                   .read<NewStoryCubit>()
                                   .titleChanged(updatedTitle: updatedTitle);
                             },
+                            style: GoogleFonts.martelSans(),
                           ),
                           SizedBox(height: 20),
                           TextFormField(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_firebase_seed3/features/story_new/model/story_model_new.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import './create_edit_story.dart';
 import '../../../widgets/video_player_view.dart';
@@ -22,7 +23,11 @@ class _StoryViewState extends State<NewStoryView> {
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
-            title: Text(state.selectedStory.storyTitle),
+            title: Text(
+              state.selectedStory.storyTitle,
+              //TODO: Map the font based on language.
+              style: GoogleFonts.martelSans()
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),

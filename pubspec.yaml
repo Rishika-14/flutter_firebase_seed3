@@ -46,6 +46,7 @@ dependencies:
   chewie: ^1.1.0
   uuid: ^3.0.4
   path: ^1.8.0
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
