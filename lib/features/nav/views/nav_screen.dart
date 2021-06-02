@@ -11,22 +11,23 @@ class NavScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
-          appBar: AppBar(
-            title: Text('Pregveda Admin Screens'),
-            automaticallyImplyLeading: false,
-          ),
-          body: ListView(
-            children: [
-              ListTile(
-                title: Text('Story'),
-                onTap: () {
-                  Navigator.of(context).pushNamed(NewStoryList.routeName);
-                },
-              )
-            ],
-          ),
+        appBar: AppBar(
+          title: Text('Pregveda Admin Screens'),
+          automaticallyImplyLeading: false,
+        ),
+        body: ListView(
+          children: [
+            ListTile(
+              title: Text('Story'),
+              onTap: () {
+                Navigator.of(context).pushNamed(NewStoryList.routeName);
+              },
+            )
+          ],
+        ),
         drawer: AppDrawer(),
       ),
-    );;
+    );
+    ;
   }
 }

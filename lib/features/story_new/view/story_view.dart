@@ -28,12 +28,12 @@ class _StoryViewState extends State<NewStoryView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if(state.selectedStory.storyFestival.isNotEmpty)
+                if (state.selectedStory.storyFestival.isNotEmpty)
                   Text(
                     state.selectedStory.storyFestival,
                     style: TextStyle(fontSize: 50),
                   ),
-                if (state.selectedStory.storyType == StoryType.youtubeVideo  &&
+                if (state.selectedStory.storyType == StoryType.youtubeVideo &&
                     state.selectedStory.youtubeVideoUrl.isNotEmpty)
                   Container(
                     height: 300,
@@ -42,7 +42,7 @@ class _StoryViewState extends State<NewStoryView> {
                       state.selectedStory.youtubeVideoUrl,
                     ),
                   ),
-                if (state.selectedStory.storyType == StoryType.markdown  &&
+                if (state.selectedStory.storyType == StoryType.markdown &&
                     state.selectedStory.storyImageUrl.isNotEmpty)
                   Container(
                     height: 100,

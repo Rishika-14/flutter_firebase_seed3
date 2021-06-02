@@ -6,7 +6,7 @@ abstract class AuthEvent {
   const AuthEvent();
 }
 
-class AuthUserChanged extends AuthEvent{
+class AuthUserChanged extends AuthEvent {
   final auth.User? user;
 
   const AuthUserChanged({required this.user});

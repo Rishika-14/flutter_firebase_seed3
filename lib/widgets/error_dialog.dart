@@ -25,8 +25,6 @@ class ErrorDialog extends StatelessWidget {
     );
   }
 
-
-
   AlertDialog _showMaterialDialog(BuildContext context) {
     return AlertDialog(
       title: Text(title),

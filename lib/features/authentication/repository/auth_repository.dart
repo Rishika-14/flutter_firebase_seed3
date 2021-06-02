@@ -15,9 +15,10 @@ class AuthRepository extends BaseAuthRepository {
   @override
   Future<auth.User?> googleSignIn() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await GoogleSignIn().signIn();
 
-      if(googleSignInAccount == null) {
+      if (googleSignInAccount == null) {
         return null;
       }
 
