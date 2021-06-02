@@ -11,7 +11,7 @@ class ActivityModel with EquatableMixin {
 
   // final List<String>? tags;
   final bool deleted;
-  final Language language;
+  // final Language language;
 
   //admin only screens
   final String? adminOnlyComments;
@@ -20,7 +20,7 @@ class ActivityModel with EquatableMixin {
     required this.uid,
     required this.createUpdateInfo,
     //  this.tags,
-    required this.language,
+    // required this.language,
     required this.deleted,
     this.adminOnlyComments,
   });
@@ -50,21 +50,21 @@ class ActivityModel with EquatableMixin {
   List<Object?> get props =>
       [uid, createUpdateInfo, deleted, adminOnlyComments];
 
-  TextStyle getDynamicFont({
-    Color? backgroundColor,
-    double? fontSize,
-  }) {
-    switch (language) {
-      case Language.Hindi:
-        return GoogleFonts.martelSans(
-          backgroundColor: backgroundColor,
-          fontSize: fontSize,
-        );
-      case Language.English:
-        return GoogleFonts.roboto(
-          backgroundColor: backgroundColor,
-          fontSize: fontSize,
-        );
-    }
-  }
+  // TextStyle getDynamicFont({
+  //   Color? backgroundColor,
+  //   double? fontSize,
+  // }) {
+  //   switch (language) {
+  //     case Language.Hindi:
+  //       return GoogleFonts.martelSans(
+  //         backgroundColor: backgroundColor,
+  //         fontSize: fontSize,
+  //       );
+  //     case Language.English:
+  //       return GoogleFonts.roboto(
+  //         backgroundColor: backgroundColor,
+  //         fontSize: fontSize,
+  //       );
+  //   }
+  // }
 }
