@@ -18,7 +18,7 @@ import 'features/story_new/view/story_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Bloc.observer = SimpleBlocObserver();
+  // Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 
@@ -51,8 +51,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          debugShowCheckedModeBanner: false,
           //caution: do not checkin
-          initialRoute: NavScreen.routeName,
+          initialRoute: NewStoryList.routeName,
           // initialRoute: SplashScreen.routeName,
           routes: {
             NavScreen.routeName: (context) => NavScreen(),
