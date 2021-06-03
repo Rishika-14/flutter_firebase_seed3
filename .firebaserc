@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "flutter-firebase-seed3"
+    "default": "flutter-firebase-seed3",
+    "qa": "pregveda-qa",
+    "prod": "pregveda-prod"
   }
 }

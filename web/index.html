@@ -17,7 +17,9 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter project.">
   <!-- For dev environment-->
-  <meta name="google-signin-client_id" content="994352238065-7s7p7i4h4tdrhaoj4vskapnodg6rleh8.apps.googleusercontent.com">
+<!--  <meta name="google-signin-client_id" content="994352238065-7s7p7i4h4tdrhaoj4vskapnodg6rleh8.apps.googleusercontent.com">-->
+  <!--qa config fro pregved-qa project. pregveda-qa1 web app-->
+  <meta name="google-signin-client_id" content="559155397260-pis4qnq38ohjtpd84gjpt2vf0shjori1.apps.googleusercontent.com">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -33,7 +35,7 @@
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
   <script>
-    var serviceWorkerVersion = 2;
+    var serviceWorkerVersion = 3;
     var scriptLoaded = false;
     function loadMainDartJs() {
       if (scriptLoaded) {
@@ -110,14 +112,27 @@
 <script>
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  var firebaseConfig = {
-    apiKey: "AIzaSyArlxWJsF0IkgwlNTjtszXABWNxBandiA0",
-    authDomain: "flutter-firebase-seed3.firebaseapp.com",
-    projectId: "flutter-firebase-seed3",
-    storageBucket: "flutter-firebase-seed3.appspot.com",
-    messagingSenderId: "994352238065",
-    appId: "1:994352238065:web:75f1dac81f282cf8aa0850",
-    measurementId: "G-4EWJ42C792"
+
+  //dev config for flutter-firebase-seed3 project
+  // var firebaseConfig = {
+  //   apiKey: "AIzaSyArlxWJsF0IkgwlNTjtszXABWNxBandiA0",
+  //   authDomain: "flutter-firebase-seed3.firebaseapp.com",
+  //   projectId: "flutter-firebase-seed3",
+  //   storageBucket: "flutter-firebase-seed3.appspot.com",
+  //   messagingSenderId: "994352238065",
+  //   appId: "1:994352238065:web:75f1dac81f282cf8aa0850",
+  //   measurementId: "G-4EWJ42C792"
+  // };
+
+  //qa config fro pregved-qa project. pregveda-qa1 web app
+  const firebaseConfig = {
+    apiKey: "AIzaSyBH9vn3HuulcDaFx0gbr0F6JZNtVc-DaOo",
+    authDomain: "pregveda-qa.firebaseapp.com",
+    projectId: "pregveda-qa",
+    storageBucket: "pregveda-qa.appspot.com",
+    messagingSenderId: "559155397260",
+    appId: "1:559155397260:web:c9da2d404038e93359b1a9",
+    measurementId: "G-QPQ35TM9VH"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
