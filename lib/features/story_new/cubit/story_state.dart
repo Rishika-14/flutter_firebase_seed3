@@ -27,6 +27,9 @@ class NewStoryState extends Equatable {
   StoryModelNew get selectedStory {
     var selectedStory =
         stories.firstWhere((story) => story.uid == selectedStoryId);
+    if(selectedStory == null) {
+      throw("No story exists with id: $selectedStoryId");
+    }
     return selectedStory;
   }
 
