@@ -110,12 +110,37 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     }
   }
 
-  void restoreStory({required String id}) {
-    var newStories = state.stories
-        .map(
-            (story) => story.uid == id ? story.copyWith(deleted: false) : story)
-        .toList();
-    emit(state.copyWith(stories: newStories));
+  void restoreStory({required String storyId}) async {
+    emit(
+      state.copyWith(
+        selectedStoryId: storyId,
+        crudScreenStatus: CrudScreenStatus.loading,
+      ),
+    );
+    try {
+      var story = state.selectedStory;
+      var updatedStory = story.copyWith(deleted: false);
+      var updateStory = await _storyRepository.updateItem(updatedStory);
+      var newStories = state.stories
+          .map((story) => story.uid == storyId ? updatedStory : story)
+          .toList();
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.loaded,
+          stories: newStories,
+        ),
+      );
+    } catch (ex) {
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(
+            code: "Failed to restore story",
+            message: ex.toString(),
+          ),
+        ),
+      );
+    }
   }
 
   //deleteStory

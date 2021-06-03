@@ -18,7 +18,7 @@ class NavScreen extends StatelessWidget {
         body: ListView(
           children: [
             ListTile(
-              title: Text('Story'),
+              title: Text('Story1'),
               onTap: () {
                 Navigator.of(context).pushNamed(NewStoryList.routeName);
               },
