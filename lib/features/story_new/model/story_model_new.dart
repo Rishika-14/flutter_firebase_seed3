@@ -108,7 +108,6 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       final data = docSnapshot.data();
       return StoryModelNew(
         uid: docSnapshot.id,
-        //TODO: convert DataType
         createUpdateInfo: List<CreateUpdateInfoModel>.from(
           data!["createUpdateInfo"].map(
             (e) => CreateUpdateInfoModel.fromJson(e),

@@ -18,7 +18,7 @@ import 'features/story_new/view/story_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // Bloc.observer = SimpleBlocObserver();
+  Bloc.observer = SimpleBlocObserver();
   runApp(MyApp());
 }
 

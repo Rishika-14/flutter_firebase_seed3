@@ -39,7 +39,10 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
         ...item.createUpdateInfo,
         CreateUpdateInfoModel(
           timestamp: Timestamp.now(),
-          firebaseUid: FirebaseAuth.instance.currentUser!.uid,
+          firebaseUid: FirebaseAuth.instance.currentUser != null
+              ? FirebaseAuth.instance.currentUser!.uid
+              : "dummy uid",
+          //TODO: Add a uid from shared preferencesflutter pub add shared_preferences
         )
       ],
     );

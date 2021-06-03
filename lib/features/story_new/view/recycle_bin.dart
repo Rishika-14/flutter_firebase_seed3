@@ -20,7 +20,8 @@ class RecycleBin extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-                'Recycle Bin (${state.stories.where((element) => element.deleted == true).length})'),
+                'Story Recycle Bin (${state.stories.where((element) => element
+                    .deleted == true).length})'),
           ),
           body: ListView.builder(
               itemCount: stories.length,

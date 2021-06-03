@@ -77,6 +77,47 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     }
   }
 
+  void addToRecycleBin({required String storyId}) async {
+    emit(
+      state.copyWith(
+        selectedStoryId: storyId,
+        crudScreenStatus: CrudScreenStatus.loading,
+      ),
+    );
+    try {
+      var story = state.selectedStory;
+      var updatedStory = story.copyWith(deleted: true);
+      var updateStory = await _storyRepository.updateItem(updatedStory);
+      var newStories = state.stories
+          .map((story) => story.uid == storyId ? updatedStory : story)
+          .toList();
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.loaded,
+          stories: newStories,
+        ),
+      );
+    } catch (ex) {
+      emit(
+        state.copyWith(
+          crudScreenStatus: CrudScreenStatus.error,
+          failure: Failure(
+            code: "Failed to recycle bin the story",
+            message: ex.toString(),
+          ),
+        ),
+      );
+    }
+  }
+
+  void restoreStory({required String id}) {
+    var newStories = state.stories
+        .map(
+            (story) => story.uid == id ? story.copyWith(deleted: false) : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
   //deleteStory
   deleteStory(String id) async {
     emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
@@ -98,7 +139,7 @@ class NewStoryCubit extends Cubit<NewStoryState> {
 
   //Get All Stories
   getAllStories() async {
-    // emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
+    emit(state.copyWith(crudScreenStatus: CrudScreenStatus.loading));
     try {
       var allStories = await _storyRepository.getAllItems();
       //sort by timestamp
@@ -203,21 +244,6 @@ class NewStoryCubit extends Cubit<NewStoryState> {
         .map((story) => story.uid == state.selectedStoryId
             ? story.copyWith(adminOnlyComments: comment)
             : story)
-        .toList();
-    emit(state.copyWith(stories: newStories));
-  }
-
-  void addToRecycleBin({required String id}) {
-    var newStories = state.stories
-        .map((story) => story.uid == id ? story.copyWith(deleted: true) : story)
-        .toList();
-    emit(state.copyWith(stories: newStories));
-  }
-
-  void restoreStory({required String id}) {
-    var newStories = state.stories
-        .map(
-            (story) => story.uid == id ? story.copyWith(deleted: false) : story)
         .toList();
     emit(state.copyWith(stories: newStories));
   }

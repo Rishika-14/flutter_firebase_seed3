@@ -90,10 +90,7 @@ class _NewStoryListState extends State<NewStoryList> {
                                     onPressed: () async {
                                       context
                                           .read<NewStoryCubit>()
-                                          .addToRecycleBin(id: story.uid);
-                                      var createEditSuccess = await context
-                                          .read<NewStoryCubit>()
-                                          .updateStoryInDB();
+                                          .addToRecycleBin(storyId: story.uid);
                                       Navigator.pop(context);
                                     },
                                     child: Text('Yes'),
