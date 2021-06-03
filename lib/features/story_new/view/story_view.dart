@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_firebase_seed3/features/common_models/languages.enum.dart';
 import 'package:flutter_firebase_seed3/features/story_new/model/story_model_new.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +18,13 @@ class NewStoryView extends StatefulWidget {
 }
 
 class _StoryViewState extends State<NewStoryView> {
+  late Language _currentLanguage;
+  @override
+  void initState() {
+    _currentLanguage = context.read<NewStoryCubit>().getLanguage();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewStoryCubit, NewStoryState>(
@@ -25,9 +33,16 @@ class _StoryViewState extends State<NewStoryView> {
           appBar: AppBar(
             title: Text(
               state.selectedStory.storyTitle,
-              //TODO: Map the font based on language.
-              style: GoogleFonts.martelSans()
+              style: state.selectedStory.getStyle(),
             ),
+            actions: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(CreateEditNewStory.routeName);
+                  },
+                  child: Text('Edit'))
+            ],
           ),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -38,7 +53,7 @@ class _StoryViewState extends State<NewStoryView> {
                   if (state.selectedStory.storyFestival.isNotEmpty)
                     Text(
                       state.selectedStory.storyFestival,
-                      style: TextStyle(fontSize: 50),
+                      style: state.selectedStory.getStyle(),
                     ),
                   if (state.selectedStory.storyType == StoryType.youtubeVideo &&
                       state.selectedStory.youtubeVideoUrl.isNotEmpty)
@@ -66,17 +81,13 @@ class _StoryViewState extends State<NewStoryView> {
                     ),
                   if (state.selectedStory.storyType == StoryType.markdown &&
                       state.selectedStory.moral.isNotEmpty)
-                    Text("Moral: ${state.selectedStory.moral}"),
+                    Text(
+                      "Moral: ${state.selectedStory.moral}",
+                      style: state.selectedStory.getStyle(),
+                    ),
                 ],
               ),
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.edit),
-            onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(CreateEditNewStory.routeName);
-            },
           ),
         );
       },

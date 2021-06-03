@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_firebase_seed3/features/common_models/activity_model.dart';
 import 'package:flutter_firebase_seed3/features/common_models/create_update_info_model.dart';
+import 'package:flutter_firebase_seed3/features/common_models/languages.enum.dart';
 
 enum StoryType {
   markdown,
@@ -24,7 +26,8 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
     required List<CreateUpdateInfoModel> createUpdateInfo,
     //  required List<String>? tags,
     required bool deleted,
-    required String? adminOnlyComments,
+    required Language language,
+    required String adminOnlyComments,
     required String storyTitle,
     required String storyFestival,
     required String storyImageUrl,
@@ -43,6 +46,7 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
           uid: uid,
           createUpdateInfo: createUpdateInfo,
           //      tags: tags,
+          language: language,
           deleted: deleted,
           adminOnlyComments: adminOnlyComments,
         );
@@ -52,8 +56,9 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       uid: "new",
       createUpdateInfo: [],
       //   tags: [],
+      language: Language.English,
       deleted: false,
-      adminOnlyComments: null,
+      adminOnlyComments: 'admin comment',
       storyTitle: "",
       storyFestival: "",
       storyImageUrl: "",
@@ -77,7 +82,8 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
     List<CreateUpdateInfoModel>? createUpdateInfo,
     List<String>? tags,
     bool? deleted,
-    String? comments,
+    String? adminOnlyComments,
+    Language? language,
   }) {
     return StoryModelNew(
       storyTitle: storyTitle ?? this.storyTitle,
@@ -90,6 +96,7 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       uid: uid ?? this.uid,
       createUpdateInfo: createUpdateInfo ?? this.createUpdateInfo,
       //    tags: tags ?? this.tags,
+      language: language ?? this.language,
       deleted: deleted ?? this.deleted,
       adminOnlyComments: adminOnlyComments ?? this.adminOnlyComments,
     );
@@ -111,7 +118,7 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
         //     tags: data['tags'],
         adminOnlyComments: data['comments'],
         deleted: data['deleted'],
-
+        language: EnumToString.fromString(Language.values, data['language'])!,
         storyTitle: data['storyTitle'],
         storyFestival: data['storyFestival'],
         storyImageUrl: data['storyImageUrl'],
@@ -133,6 +140,7 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
     result['storyImageUrl'] = this.storyImageUrl;
     result['storyMarkdown'] = this.storyMarkdown;
     result['moral'] = this.moral;
+    result['language'] = EnumToString.convertToString(this.language);
     result['youtubeVideoUrl'] = this.youtubeVideoUrl;
     result['storyType'] = EnumToString.convertToString(this.storyType);
     //New Added

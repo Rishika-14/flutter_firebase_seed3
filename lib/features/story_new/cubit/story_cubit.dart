@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_firebase_seed3/features/common_models/languages.enum.dart';
 
 import '../../common_models/crud_screen_status.dart';
 import '../../common_models/failure.dart';
@@ -103,7 +104,7 @@ class NewStoryCubit extends Cubit<NewStoryState> {
       //sort by timestamp
       //TODO: re enable sorting after implementing Auth hotreload
       //allStories.sort();
-      print('All Stories $allStories');
+      // print('All Stories $allStories');
       emit(state.copyWith(
           stories: allStories, crudScreenStatus: CrudScreenStatus.loaded));
     } catch (e) {
@@ -195,5 +196,37 @@ class NewStoryCubit extends Cubit<NewStoryState> {
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));
+  }
+
+  void commentChanged({required String comment}) async {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(adminOnlyComments: comment)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void addToRecycleBin({required String id}) {
+    var newStories = state.stories
+        .map((story) => story.uid == id ? story.copyWith(deleted: true) : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void restoreStory({required String id}) {
+    var newStories = state.stories
+        .map(
+            (story) => story.uid == id ? story.copyWith(deleted: false) : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  StoryType getStoryType() {
+    return state.selectedStory.storyType;
+  }
+
+  Language getLanguage() {
+    return state.selectedStory.language;
   }
 }

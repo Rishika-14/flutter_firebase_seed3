@@ -1,0 +1,18 @@
+enum Tithi {
+  Pratipada,
+  Dwitiya,
+  Tritiya,
+  Chaturthi,
+  Panchami,
+  Shashti,
+  Saptami,
+  Ashtami,
+  Navami,
+  Dashami,
+  Ekadashi,
+  Dwadashi,
+  Trayodashi,
+  Chaturdashi,
+  Poornima,
+  Amavasya,
+}

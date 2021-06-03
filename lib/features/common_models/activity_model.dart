@@ -11,18 +11,18 @@ class ActivityModel with EquatableMixin {
 
   // final List<String>? tags;
   final bool deleted;
-  // final Language language;
+  final Language language;
 
   //admin only screens
-  final String? adminOnlyComments;
+  final String adminOnlyComments;
 
   ActivityModel({
     required this.uid,
     required this.createUpdateInfo,
     //  this.tags,
-    // required this.language,
+    required this.language,
     required this.deleted,
-    this.adminOnlyComments,
+    required this.adminOnlyComments,
   });
 
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
@@ -32,8 +32,9 @@ class ActivityModel with EquatableMixin {
             (e) => CreateUpdateInfoModel.fromJson(e),
           ),
         ),
-        // language: EnumToString,
+        language: EnumToString.fromString(Language.values, json['language'])!,
         deleted: json["deleted"],
+        adminOnlyComments: json['comments'],
       );
 
   Map<String, dynamic> toJson() {
@@ -43,6 +44,7 @@ class ActivityModel with EquatableMixin {
       //    'tags': this.tags,
       'deleted': this.deleted,
       'comments': this.adminOnlyComments,
+      'language': EnumToString.convertToString(this.language),
     };
   }
 
@@ -50,21 +52,20 @@ class ActivityModel with EquatableMixin {
   List<Object?> get props =>
       [uid, createUpdateInfo, deleted, adminOnlyComments];
 
-  // TextStyle getDynamicFont({
-  //   Color? backgroundColor,
-  //   double? fontSize,
-  // }) {
-  //   switch (language) {
-  //     case Language.Hindi:
-  //       return GoogleFonts.martelSans(
-  //         backgroundColor: backgroundColor,
-  //         fontSize: fontSize,
-  //       );
-  //     case Language.English:
-  //       return GoogleFonts.roboto(
-  //         backgroundColor: backgroundColor,
-  //         fontSize: fontSize,
-  //       );
-  //   }
-  // }
+  TextStyle getStyle({Color? color, double? fontSize, FontWeight? fontWeight}) {
+    if (language == Language.Hindi) {
+      return GoogleFonts.martelSans(
+          textStyle: TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      ));
+    } else {
+      return TextStyle(
+        color: color,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+      );
+    }
+  }
 }

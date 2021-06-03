@@ -1,0 +1,15 @@
+enum Month {
+  Chaitra,
+  Vaishakh,
+  Jyeshtha,
+  Ashadha,
+  Purushottam,
+  Shravan,
+  Bhadhrapad,
+  Ashwin,
+  Karthik,
+  Margshish,
+  Paush,
+  Magh,
+  Phalgun,
+}
