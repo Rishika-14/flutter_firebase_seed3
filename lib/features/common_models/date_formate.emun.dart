@@ -1,0 +1,4 @@
+enum DateFormat {
+  Date,
+  Tithi,
+}

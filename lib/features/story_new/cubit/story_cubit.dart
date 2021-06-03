@@ -1,7 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_firebase_seed3/features/common_models/languages.enum.dart';
-
+import '../../common_models/date_formate.emun.dart';
+import '../../common_models/languages.enum.dart';
+import '../../common_models/maas.enum.dart';
+import '../../common_models/month.enum.dart';
+import '../../common_models/pakasha.enum.dart';
+import '../../common_models/tithe.emun.dart';
 import '../../common_models/crud_screen_status.dart';
 import '../../common_models/failure.dart';
 import '../model/story_model_new.dart';
@@ -26,6 +30,14 @@ class NewStoryCubit extends Cubit<NewStoryState> {
       stories: newStories,
       selectedStoryId: newStory.uid,
     ));
+  }
+
+  //deleteEmptyStory
+  deleteEmptyStory() {
+    var stories = state.stories;
+    stories.removeAt(0);
+    var updatedStories = stories;
+    emit(state.copyWith(stories: updatedStories));
   }
 
   //createNewStoryInDB
@@ -184,6 +196,16 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     }
   }
 
+  //updateDay
+  void dayChanged({required int updatedDay}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(day: updatedDay)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
   //updateTitle
   void titleChanged({required String updatedTitle}) {
     var newStories = state.stories
@@ -207,6 +229,60 @@ class NewStoryCubit extends Cubit<NewStoryState> {
     var newStories = state.stories
         .map((story) => story.uid == state.selectedStoryId
             ? story.copyWith(storyType: storyType)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void dateFormatChanged({required DateFormat updatedDateFormat}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(dateFormat: updatedDateFormat)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void languageChanged({required Language updatedLanguage}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(language: updatedLanguage)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void monthChanged({required Month updatedMonth}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(month: updatedMonth)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void maasChanged({required Maas updatedMaas}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(maas: updatedMaas)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void pakshaChanged({required Paksha updatedPaksha}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(paksha: updatedPaksha)
+            : story)
+        .toList();
+    emit(state.copyWith(stories: newStories));
+  }
+
+  void tithiChanged({required Tithi updatedTithi}) {
+    var newStories = state.stories
+        .map((story) => story.uid == state.selectedStoryId
+            ? story.copyWith(tithi: updatedTithi)
             : story)
         .toList();
     emit(state.copyWith(stories: newStories));
@@ -272,6 +348,18 @@ class NewStoryCubit extends Cubit<NewStoryState> {
         .toList();
     emit(state.copyWith(stories: newStories));
   }
+
+  DateFormat get getDateFormat => state.selectedStory.dateFormat;
+
+  int get getDay => state.selectedStory.day;
+
+  Month get getMonth => state.selectedStory.month;
+
+  Maas get getMaas => state.selectedStory.maas;
+
+  Paksha get getPaksha => state.selectedStory.paksha;
+
+  Tithi get getTithi => state.selectedStory.tithi;
 
   StoryType getStoryType() {
     return state.selectedStory.storyType;

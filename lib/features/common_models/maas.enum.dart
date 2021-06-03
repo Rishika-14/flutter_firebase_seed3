@@ -1,4 +1,4 @@
-enum Month {
+enum Maas {
   Chaitra,
   Vaishakh,
   Jyeshtha,
