@@ -20,8 +20,7 @@ class RecycleBin extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-                'Story Recycle Bin (${state.stories.where((element) => element
-                    .deleted == true).length})'),
+                'Story Recycle Bin (${state.stories.where((element) => element.deleted == true).length})'),
           ),
           body: ListView.builder(
               itemCount: stories.length,
@@ -36,10 +35,7 @@ class RecycleBin extends StatelessWidget {
                         onPressed: () async {
                           context
                               .read<NewStoryCubit>()
-                              .restoreStory(id: currentStory.uid);
-                          var createEditSuccess = await context
-                              .read<NewStoryCubit>()
-                              .updateStoryInDB();
+                              .restoreStory(storyId: currentStory.uid);
                         },
                         child: Text('Restore'),
                       ),

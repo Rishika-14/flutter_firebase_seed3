@@ -3,7 +3,12 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_seed3/features/common_models/activity_model.dart';
 import 'package:flutter_firebase_seed3/features/common_models/create_update_info_model.dart';
+import 'package:flutter_firebase_seed3/features/common_models/date_formate.emun.dart';
 import 'package:flutter_firebase_seed3/features/common_models/languages.enum.dart';
+import 'package:flutter_firebase_seed3/features/common_models/month.enum.dart';
+import 'package:flutter_firebase_seed3/features/common_models/maas.enum.dart';
+import 'package:flutter_firebase_seed3/features/common_models/pakasha.enum.dart';
+import 'package:flutter_firebase_seed3/features/common_models/tithe.emun.dart';
 
 enum StoryType {
   markdown,
@@ -16,17 +21,28 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
   final String storyFestival; //both in markdown and video view
   final String storyImageUrl; //markdown view
   final String storyMarkdown; //markdown view
-  final String moral; // markdown view
-
+  final String moral;
+  final Language language; // markdown view
+  final DateFormat dateFormat;
+  final int day;
+  final Month month;
+  final Maas maas;
+  final Paksha paksha;
+  final Tithi tithi;
   final String youtubeVideoUrl; //video view
   final StoryType storyType; //only in create/update screens
 
   StoryModelNew({
     required String uid,
     required List<CreateUpdateInfoModel> createUpdateInfo,
-    //  required List<String>? tags,
     required bool deleted,
     required Language language,
+    required DateFormat dateFormat,
+    required int day,
+    required Month month,
+    required Maas maas,
+    required Paksha paksha,
+    required Tithi tithi,
     required String adminOnlyComments,
     required String storyTitle,
     required String storyFestival,
@@ -42,6 +58,13 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
         this.moral = moral,
         this.youtubeVideoUrl = youtubeVideoUrl,
         this.storyType = storyType,
+        this.language = language,
+        this.dateFormat = dateFormat,
+        this.day = day,
+        this.month = month,
+        this.maas = maas,
+        this.paksha = paksha,
+        this.tithi = tithi,
         super(
           uid: uid,
           createUpdateInfo: createUpdateInfo,
@@ -58,7 +81,7 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       //   tags: [],
       language: Language.English,
       deleted: false,
-      adminOnlyComments: 'admin comment',
+      adminOnlyComments: '',
       storyTitle: "",
       storyFestival: "",
       storyImageUrl: "",
@@ -66,6 +89,12 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       moral: "",
       youtubeVideoUrl: "",
       storyType: StoryType.markdown,
+      day: 1,
+      month: Month.January,
+      tithi: Tithi.Pratipada,
+      maas: Maas.Chaitra,
+      paksha: Paksha.Krishna,
+      dateFormat: DateFormat.Date,
     );
   }
 
@@ -84,6 +113,12 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
     bool? deleted,
     String? adminOnlyComments,
     Language? language,
+    DateFormat? dateFormat,
+    int? day,
+    Month? month,
+    Maas? maas,
+    Paksha? paksha,
+    Tithi? tithi,
   }) {
     return StoryModelNew(
       storyTitle: storyTitle ?? this.storyTitle,
@@ -97,6 +132,12 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
       createUpdateInfo: createUpdateInfo ?? this.createUpdateInfo,
       //    tags: tags ?? this.tags,
       language: language ?? this.language,
+      dateFormat: dateFormat ?? this.dateFormat,
+      day: day ?? this.day,
+      month: month ?? this.month,
+      maas: maas ?? this.maas,
+      paksha: paksha ?? this.paksha,
+      tithi: tithi ?? this.tithi,
       deleted: deleted ?? this.deleted,
       adminOnlyComments: adminOnlyComments ?? this.adminOnlyComments,
     );
@@ -118,6 +159,13 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
         adminOnlyComments: data['comments'],
         deleted: data['deleted'],
         language: EnumToString.fromString(Language.values, data['language'])!,
+        dateFormat:
+            EnumToString.fromString(DateFormat.values, data['dateFormat'])!,
+        day: data['day'],
+        month: EnumToString.fromString(Month.values, data['month'])!,
+        maas: EnumToString.fromString(Maas.values, data['maas'])!,
+        paksha: EnumToString.fromString(Paksha.values, data['paksha'])!,
+        tithi: EnumToString.fromString(Tithi.values, data['tithi'])!,
         storyTitle: data['storyTitle'],
         storyFestival: data['storyFestival'],
         storyImageUrl: data['storyImageUrl'],
@@ -140,6 +188,12 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
     result['storyMarkdown'] = this.storyMarkdown;
     result['moral'] = this.moral;
     result['language'] = EnumToString.convertToString(this.language);
+    result['dateFormat'] = EnumToString.convertToString(this.dateFormat);
+    result['day'] = this.day;
+    result['month'] = EnumToString.convertToString(this.month);
+    result['maas'] = EnumToString.convertToString(this.maas);
+    result['paksha'] = EnumToString.convertToString(this.paksha);
+    result['tithi'] = EnumToString.convertToString(this.tithi);
     result['youtubeVideoUrl'] = this.youtubeVideoUrl;
     result['storyType'] = EnumToString.convertToString(this.storyType);
     //New Added
@@ -149,6 +203,13 @@ class StoryModelNew extends ActivityModel implements Comparable<StoryModelNew> {
   @override
   List<Object?> get props => super.props
     ..addAll([
+      language,
+      dateFormat,
+      day,
+      month,
+      maas,
+      paksha,
+      tithi,
       storyTitle,
       storyFestival,
       storyImageUrl,

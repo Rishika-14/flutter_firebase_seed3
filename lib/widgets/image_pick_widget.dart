@@ -115,12 +115,11 @@ class ImagePick extends StatelessWidget {
               width: 100,
               color: Colors.white,
               child: (selectedImage == null || selectedImage == '')
-                  ? Icon(Icons.image)
+                  ? Icon(Icons.upload)
                   : Image.network(
                       selectedImage!,
                       fit: BoxFit.cover,
                     )),
-          Text('Upload Image'),
         ],
       ),
     );

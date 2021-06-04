@@ -1,0 +1,4 @@
+enum Paksha {
+  Krishna,
+  Shukla,
+}
