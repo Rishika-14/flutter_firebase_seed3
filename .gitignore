@@ -1,5 +1,6 @@
 # Added by dev team
 .firebase
+venv
 
 # Miscellaneous
 *.class
