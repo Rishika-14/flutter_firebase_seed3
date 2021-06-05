@@ -118,10 +118,10 @@ class _NewStoryListState extends State<NewStoryList> {
       } else {
         return Scaffold(
           appBar: AppBar(
-            title: Text('An Error Occurred'),
+            title: Text(state.failure.code),
           ),
           body: Center(
-            child: Text('Error'),
+            child: Text(state.failure.message),
           ),
         );
       }

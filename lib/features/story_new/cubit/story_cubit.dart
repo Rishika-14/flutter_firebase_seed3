@@ -190,7 +190,10 @@ class NewStoryCubit extends Cubit<NewStoryState> {
       emit(
         state.copyWith(
           crudScreenStatus: CrudScreenStatus.error,
-          failure: Failure(message: 'Get all Stories failed : $e'),
+          failure: Failure(
+            code: 'Get all Stories failed',
+            message: e.toString(),
+          ),
         ),
       );
     }

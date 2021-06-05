@@ -19,10 +19,13 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
     var itemWithUpdateInfo = item.copyWith(
       createUpdateInfo: [
         ...item.createUpdateInfo,
-        // CreateUpdateInfoModel(
-        //   timestamp: Timestamp.now(),
-        //   firebaseUid: FirebaseAuth.instance.currentUser!.uid,
-        // )
+        CreateUpdateInfoModel(
+          timestamp: Timestamp.now(),
+          firebaseUid: FirebaseAuth.instance.currentUser != null
+              ? FirebaseAuth.instance.currentUser!.uid
+              : "dummy uid",
+          //TODO: Add a uid from shared preferencesflutter pub add shared_preferences
+        )
       ],
     );
     var json = itemWithUpdateInfo.toJson();
@@ -34,7 +37,7 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
 
   @override
   Future<StoryModelNew> updateItem(StoryModelNew item) async {
-    var itemWithUpdatedInfo = item.copyWith(
+    var itemWithUpdateInfo = item.copyWith(
       createUpdateInfo: [
         ...item.createUpdateInfo,
         CreateUpdateInfoModel(
@@ -46,7 +49,7 @@ class StoryRepositoryNew extends BaseStoryRepositoryNew {
         )
       ],
     );
-    var json = itemWithUpdatedInfo.toJson();
+    var json = itemWithUpdateInfo.toJson();
     await _firebaseFirestore
         .collection(dbCollectionPath)
         .doc(item.uid)

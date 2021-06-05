@@ -13,7 +13,16 @@ class LoginCubit extends Cubit<LoginState> {
         super(LoginState.initial());
 
   void loginWithGoogle() async {
-    await _authRepository.googleSignIn();
+    try {
+      await _authRepository.googleSignIn();
+    } catch (ex) {
+      state.copyWith(
+        failure: Failure(
+          code: "Login Failure",
+          message: ex.toString(),
+        ),
+      );
+    }
   }
 
   void logout() async {
